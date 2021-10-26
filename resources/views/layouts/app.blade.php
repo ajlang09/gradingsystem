@@ -30,15 +30,28 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('student')}}">Students</a>
                         </li>
-                        @endif
-                      
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('classes.admin')}}">Classes</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('rank.admin')}}">Ranking</a>
+                        </li>
+                        @else
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('classes')}}">Classes</a>
                         </li>
-                       
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('rank')}}">Ranking</a>
                         </li>
+                        @endif
+                        
+                       
+                        
+                       
+                    
                        
                         
                     </ul>

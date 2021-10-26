@@ -48,19 +48,23 @@ Route::group(['middleware' => ['auth','web']], function () {
     Route::post('/student/update', [StudentController::class, 'update'])->name('student.update');
     Route::post('/student/delete', [StudentController::class, 'delete'])->name('student.delete');
     
-    Route::get('/rank', [RankingController::class, 'index'])->name('rank');
+    Route::get('/rank/admin', [RankingController::class, 'index'])->name('rank.admin');
+
     Route::post('/classes', [RankingController::class, 'store'])->name('rank.store');
-    Route::get('/classes', [ClassesController::class, 'index'])->name('classes');
+    Route::get('/classes/admin', [ClassesController::class, 'index'])->name('classes.admin');
     Route::post('/classes', [ClassesController::class, 'store'])->name('classes.store');
 
 });
-
+//OUT OF REACH
 Route::group(['middleware' => ['auth:students']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/rank', [RankingController::class, 'index'])->name('rank');
     Route::get('/classes', [ClassesController::class, 'index'])->name('classes');
 });
 
+
+//review middleware auth students
+//logoutcontroller
 
 
 

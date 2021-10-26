@@ -47,7 +47,7 @@ class LoginController extends Controller
         $exist2 = $studentRecord->where('email', $data['email'])->where('stud_id',$data['password'])->first();
       
         if($exist2){   
-            
+            //authenticates current login $exist2 as students
             auth()->guard('students')->login($exist2);
 
             flash('You have successfully logged in!')->success();
