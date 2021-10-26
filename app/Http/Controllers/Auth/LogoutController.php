@@ -9,7 +9,13 @@ use Illuminate\Support\Facades\Auth;
 class LogoutController extends Controller
 {
     public function store(){
-        //dd('tekamagdive');
+
+        $student = auth()->guard('students')->user();
+
+        if ($student) {
+            auth()->guard('students')->logout();
+        }
+
         Auth::logout();
         
         return redirect()->route('login');

@@ -43,8 +43,7 @@ return [
         'students' => [
             'driver' => 'session',
             'provider' => 'students',
-            'hash' => false,
-           ],
+        ],
     ],
 
     /*
@@ -70,7 +69,6 @@ return [
             'model' => App\Models\User::class,
         ],
         'students' => [
-            'table' => 'student_records',
             'driver' => 'eloquent',
             'model' => App\Models\StudentRecord::class,
         ],

@@ -32,11 +32,12 @@ Route::post('/register', [RegisterController::class, 'store']);
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
 
 
 
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth','web']], function () {
     Route::get('/posts', [PostController::class, 'index'])->name('posts');
     Route::post('/posts', [PostController::class, 'store']);
     
@@ -49,14 +50,18 @@ Route::group(['middleware' => ['auth']], function () {
     
     Route::get('/rank', [RankingController::class, 'index'])->name('rank');
     Route::post('/classes', [RankingController::class, 'store'])->name('rank.store');
-    
     Route::get('/classes', [ClassesController::class, 'index'])->name('classes');
     Route::post('/classes', [ClassesController::class, 'store'])->name('classes.store');
-    
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
 });
+
+Route::group(['middleware' => ['auth:students']], function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/rank', [RankingController::class, 'index'])->name('rank');
+    Route::get('/classes', [ClassesController::class, 'index'])->name('classes');
+});
+
+
 
 
 //get show

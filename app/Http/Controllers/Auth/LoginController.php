@@ -40,7 +40,6 @@ class LoginController extends Controller
         if (!empty($exist1) && Hash::check($data['password'], $exist1->password)) {
             
             auth()->login($exist1);
-            //dd(auth()->user());
             return redirect()->route('dashboard');
         }
         
@@ -48,7 +47,9 @@ class LoginController extends Controller
         $exist2 = $studentRecord->where('email', $data['email'])->where('stud_id',$data['password'])->first();
       
         if($exist2){   
-            auth()->login($exist2);
+            
+            auth()->guard('students')->login($exist2);
+
             flash('You have successfully logged in!')->success();
             return redirect()->route('dashboard');
         }
