@@ -3,8 +3,10 @@
 @section('content')
 <div class="row mt-3">
     <div class="col-sm-12">
-        <h1 class="float-start">CLASSES RECORD</h1>
-        <a class="float-end btn btn-primary "href="{{route('classes.add')}}">ADD CLASS</a>
+     
+        <h1 class="float-start">GRADES RECORDS FOR (THE SUBJECT)</h1>
+       
+        <a class="float-end btn btn-primary "href="classes.add">Add Student</a>
     </div>
 </div>
 
@@ -14,13 +16,19 @@
             <thead class="bg-secondary text-white">
                 <tr>
                     <th>
-                        Class ID
+                        Student Name
                     </th>
                     <th>
-                      Class Name
+                      Year and Section
                     </th> 
                     <th>
-                        Students
+                        Student ID
+                    </th>
+                    <th>
+                        Raw Grade
+                    </th>
+                    <th>
+                        Transmuted Grade
                     </th>
                     <th>
                         ACTION
@@ -33,22 +41,28 @@
                 @foreach($classesRecord as $ClassesRecords)
                 
                      <tr>
+
                     <td>
-                        
-                        {{$ClassesRecords->class_id}}
+                        {{$ClassesRecords->students}}Allan Joseph Lorenzo
                     </td>
                     
                     <td>
-                       <a class="nav-link" href="{{route('classes.classview',$ClassesRecords->class_id)}}">{{$ClassesRecords->class_name}}</a>
+                        {{$ClassesRecords->students}}BSIT4B
                     </td>
-                    
                     <td>
-                        {{$ClassesRecords->students}}
+                        {{$ClassesRecords->students}}2018001203
                     </td>
 
                     <td>
-                        
-                        <a class="btn btn-warning" href="{{route('classes.edit',$ClassesRecords->class_id)}}">Edit/Enroll</a>
+                        {{$ClassesRecords->students}}98.5
+                    </td>
+                    
+                    <td>
+                        {{$ClassesRecords->students}}1.25
+                    </td>
+
+                    <td>
+                        <a class="btn btn-warning" href="{{route('classes.edit',$ClassesRecords->class_id)}}">Edit Grade</a>
                         <form method="post" action="{{route('classes.delete')}}">
                             @csrf
                             <input type="hidden" name="id" value="{{$ClassesRecords->class_id}}">

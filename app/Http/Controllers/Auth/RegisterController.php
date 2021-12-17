@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-
+use App\Model\StudentRecord;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,8 +29,21 @@ class RegisterController extends Controller
         'password' =>'required|confirmed' 
 
         ]);
+        $data = $request->all();
+        $user = new User;
+        $studentRecord = new User;
+        $exist1 = $user->where('email', $data['email'])->first();
+        $exist2 = $studentRecord->where('email', $data['email'])->first();
+        if($exist1){
+            if($exist2){
+               
+                flash('Email already exists')->error();
+                return redirect()->route('register');
+            }
+            
+        }
 
-       
+        
         //store the user
         User::create([
             'name' =>$request->name,

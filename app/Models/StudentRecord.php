@@ -15,4 +15,9 @@ class StudentRecord extends Authenticatable
         'yearandsection',
         'email'
     ];
+//many to many connecting to other database
+    public function class()
+    {
+        return $this->belongsToMany('App\Models\ClassesRecord','class_id_stud_id', 'class_id');
+    }
 }

@@ -49,7 +49,7 @@ class LoginController extends Controller
         if($exist2){   
             //authenticates current login $exist2 as students
             auth()->guard('students')->login($exist2);
-
+            
             flash('You have successfully logged in!')->success();
             return redirect()->route('dashboard');
         }

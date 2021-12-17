@@ -48,12 +48,22 @@ Route::group(['middleware' => ['auth','web']], function () {
     Route::post('/student/update', [StudentController::class, 'update'])->name('student.update');
     Route::post('/student/delete', [StudentController::class, 'delete'])->name('student.delete');
     
+   
+   
+    
     Route::get('/rank/admin', [RankingController::class, 'index'])->name('rank.admin');
 
+    Route::get('/classes', [ClassesController::class, 'index'])->name('classes');
     Route::post('/classes', [RankingController::class, 'store'])->name('rank.store');
     Route::get('/classes/admin', [ClassesController::class, 'index'])->name('classes.admin');
+    Route::get('/classes/admin/add', [ClassesController::class, 'add'])->name('classes.add');
     Route::post('/classes', [ClassesController::class, 'store'])->name('classes.store');
+    Route::get('/classes/{id}/edit', [ClassesController::class, 'edit'])->name('classes.edit');
+    Route::post('/classes/update', [ClassesController::class, 'update'])->name('classes.update');
+    Route::post('/classes/delete', [ClassesController::class, 'delete'])->name('classes.delete');
 
+    Route::get('/classes/{id}/classview', [ClassesController::class, 'classview'])->name('classes.classview');
+    
 });
 //OUT OF REACH
 Route::group(['middleware' => ['auth:students']], function () {
@@ -63,12 +73,17 @@ Route::group(['middleware' => ['auth:students']], function () {
 });
 
 
-//review middleware auth students
+//REVIEW Middleware auth students AND BELOW
 //logoutcontroller
+//logincontroller
 
-
+//CREATE RANKING AND CLASS FOLLOW STUDENT TABLE AND CLASS 
 
 //get show
 //post input add
+//update registercontroller duplicate entry error
+//register email exist update
 
+
+//navbar mobile view side not function
 
