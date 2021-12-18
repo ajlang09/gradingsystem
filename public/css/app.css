@@ -13044,3 +13044,7 @@ textarea.form-control-lg {
 .float-right {
   float: right;
 }
+
+.float-left {
+  float: left;
+}

@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth','web']], function () {
     Route::post('/remove/student', [ClassesController::class, 'removeStudent'])->name('remove.student');
     Route::post('/remove/subject', [ClassesController::class, 'removeSubject'])->name('remove.subject');
 
+    Route::get('/student/{classId}/{studentId}/grades', [StudentController::class, 'grades'])->name('student.grades');
    
     
     Route::get('/rank/admin', [RankingController::class, 'index'])->name('rank.admin');

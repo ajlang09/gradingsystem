@@ -103,4 +103,30 @@ class StudentController extends Controller
 
         return response()->json($students);
     }
+
+    public function grades($classId, $studentId)
+    {
+        $class = ClassesRecord::find($classId);
+
+        if (empty($class)) {
+            flash()->error('Class does not exist');
+            return redirect()->back();
+        }
+
+        $students  = $class->students()->get();
+        $exception = [];
+        if ($students) {
+            $exception = $students->pluck('id')->toArray();
+        }
+        if (!in_array($studentId, $exception)) {
+            flash()->error('Student does not belong to this class');
+            return redirect()->back();
+        }
+
+        $student = StudentRecord::find($studentId);
+
+        $subjects = $class->subjects()->get();
+
+        return view('modules.class.student_profile', compact('class', 'student', 'subjects'));
+    }
 }

@@ -43,7 +43,7 @@
                                 {{$student->stud_id}}
                             </td>
                             <td>
-                                <a class="btn btn-warning" href="{{route('classes.edit',$class->class_id)}}">Edit Grade</a>
+                                <a class="btn btn-warning" href="{{route('student.grades',[$class->class_id, $student->id])}}">Grades</a>
                                 <form method="post" action="{{route('remove.student')}}">
                                     @csrf
                                     <input type="hidden" name="class_id" value="{{$class->class_id}}">
