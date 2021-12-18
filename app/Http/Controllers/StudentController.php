@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\StudentRecord;
+use App\Models\ClassesRecord;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -77,5 +78,29 @@ class StudentController extends Controller
         $dataModel->delete();
         
         return redirect()->route('student');
+    }
+
+    public function search(Request $request) 
+    {
+        $data = $request->all();
+
+        $search = isset($data['search']) ? $data['search'] : '';
+        $classId = isset($data['classId']) ? $data['classId'] : '';
+
+        $class = ClassesRecord::find($classId);
+        $exception = [];
+        $students = $class->students()->get();
+
+        if ($students) {
+            $exception = $students->pluck('id')->toArray();
+        }
+
+        $students = StudentRecord::whereNotIn('id', $exception)->where(function($query) use ($data) {
+            $query->where('name','like','%'.$data['search'].'%')
+            ->orWhere('email','like','%'.$data['search'].'%')
+            ->orWhere('stud_id','like','%'.$data['search'].'%');
+        })->get();
+
+        return response()->json($students);
     }
 }

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Grading System</title>
   
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/data_table.css') }}">
 </head>
 <body class="bg-gray-200">
@@ -38,6 +38,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('rank.admin')}}">Ranking</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('subject.index')}}">Subject</a>
+                        </li>
+
                         @else
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('classes')}}">Classes</a>
@@ -84,10 +89,15 @@
         
         @yield('content')
     </div>  
-    
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script type="text/javascript">
+        window.apiUrl = '{{url('/')}}'
+    </script>
+    <script src="{{ asset(mix('/js/app.js')) }}"></script>
     <script src="{{ asset('js/data_table.js') }}"></script>
     @yield('script')
+
+    @include('flash::message')
+
 </body>
 
 </html>

@@ -14,11 +14,15 @@ class ClassesRecord extends Authenticatable
         'class_id',
         'class_name',
         'students'
-        
     ];
 //many to many connecting to other database
-    public function student()
+    public function students()
     {
-        return $this->belongsToMany('App\Models\StudentRecord','class_id_stud_id', 'id', 'stud_id');
+        return $this->belongsToMany('App\Models\StudentRecord', 'classes_record_student_record', 'class_id', 'student_id');
+    }
+
+    public function subjects()
+    {
+        return $this->belongsToMany('App\Models\Subject', 'class_record_subject', 'class_id', 'subject_id');
     }
 }

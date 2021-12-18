@@ -39,16 +39,17 @@
                     </td>
                     
                     <td>
-                       <a class="nav-link" href="{{route('classes.classview',$ClassesRecords->class_id)}}">{{$ClassesRecords->class_name}}</a>
+                       {{$ClassesRecords->class_name}}</a>
                     </td>
                     
                     <td>
-                        {{$ClassesRecords->students}}
+                        {{$ClassesRecords->students()->count()}}
                     </td>
 
                     <td>
-                        
                         <a class="btn btn-warning" href="{{route('classes.edit',$ClassesRecords->class_id)}}">Edit/Enroll</a>
+                        <a class="btn btn-primary" href="{{route('classes.classview',$ClassesRecords->class_id)}}">See Details</a>
+
                         <form method="post" action="{{route('classes.delete')}}">
                             @csrf
                             <input type="hidden" name="id" value="{{$ClassesRecords->class_id}}">
