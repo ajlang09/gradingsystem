@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Grading System</title>
+    @if(auth()->user() && 'teacher' == auth()->user()->roles()->first()->name)
+        <meta name="teacher_id" content="{{auth()->id()}}">
+    @endif
   
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/data_table.css') }}">
 </head>
 <body class="bg-gray-200">
@@ -22,7 +25,7 @@
                 <div class="collapse navbar-collapse" id="navbarsExample09">
                     @auth
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        @if('users' == auth()->user()->getTable())
+                        @if('admin' == auth()->user()->roles()->first()->name)
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
                         </li>
@@ -38,22 +41,24 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('rank.admin')}}">Ranking</a>
                         </li>
-                        @else
+
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('classes')}}">Classes</a>
+                            <a class="nav-link" href="{{route('subject.index')}}">Subject</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('rank')}}">Ranking</a>
+                            <a class="nav-link" href="{{route('users.index')}}">User</a>
                         </li>
+                        @else
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('teacher.subjects')}}">Subject</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('teacher.class')}}">Class</a>
+                        </li>
+                        
                         @endif
-                        
-                       
-                        
-                       
-                    
-                       
-                        
                     </ul>
                     <div>{{auth()->user()->name}}</div>
                     <div>
@@ -84,10 +89,15 @@
         
         @yield('content')
     </div>  
-    
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script type="text/javascript">
+        window.apiUrl = '{{url('/')}}'
+    </script>
+    <script src="{{ asset(mix('/js/app.js')) }}"></script>
     <script src="{{ asset('js/data_table.js') }}"></script>
     @yield('script')
+
+    @include('flash::message')
+
 </body>
 
 </html>
