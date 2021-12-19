@@ -43,6 +43,9 @@
                             <a class="nav-link" href="{{route('subject.index')}}">Subject</a>
                         </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('users.index')}}">User</a>
+                        </li>
                         @else
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('classes')}}">Classes</a>
@@ -51,14 +54,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('rank')}}">Ranking</a>
                         </li>
+
                         @endif
-                        
-                       
-                        
-                       
-                    
-                       
-                        
                     </ul>
                     <div>{{auth()->user()->name}}</div>
                     <div>

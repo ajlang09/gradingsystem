@@ -7,6 +7,7 @@ use App\Http\Controllers\RankingController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -74,6 +75,7 @@ Route::group(['middleware' => ['auth','web']], function () {
     Route::get('/classes/{id}/classview', [ClassesController::class, 'classview'])->name('classes.classview');
     
     Route::resource('subject',SubjectController::class);
+    Route::resource('users', UserController::class);
 
     Route::get('search/subject', [SubjectController::class, 'search']);
 

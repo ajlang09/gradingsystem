@@ -5,17 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Subject extends Model
+class Role extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'name',
-        'year',
     ];
 
-    public function classes()
+    public function users()
     {
-        return $this->belongsToMany('App\Models\ClassesRecord','class_record_subject', 'subject_id', 'class_id');
+        return $this->belongsToMany('App\Models\User');
     }
 }

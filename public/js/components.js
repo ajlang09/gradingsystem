@@ -2601,7 +2601,16 @@ var render = function () {
                         return [
                           _c("tr", [
                             _c("td", { staticClass: "v-align-center" }, [
-                              _c("b", [_vm._v(_vm._s(subject.name))]),
+                              _c(
+                                "b",
+                                [
+                                  _vm._v(_vm._s(subject.name) + " "),
+                                  subject.year
+                                    ? [_vm._v("- " + _vm._s(subject.year))]
+                                    : _vm._e(),
+                                ],
+                                2
+                              ),
                             ]),
                             _vm._v(" "),
                             _c("td", [

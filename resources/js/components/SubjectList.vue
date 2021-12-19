@@ -25,7 +25,7 @@
             <tbody>
               <template v-for="subject in subjectList">
                 <tr>
-                  <td class="v-align-center"><b>{{subject.name}}</b></td>
+                  <td class="v-align-center"><b>{{subject.name}} <template v-if="subject.year">- {{subject.year}}</template></b></td>
                   <td><span class="btn btn-primary" @click="select(subject)">Select</span></td>
                 </tr>
               </template>

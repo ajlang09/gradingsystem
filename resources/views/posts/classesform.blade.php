@@ -22,7 +22,6 @@
                     <input type="text" name="year" id="year" placeholder="" 
                     class="form-control">
                 </div>
-
                   <div class="col-sm-12 mb-1 mt-2">
                       <button type="submit" class="btn btn-primary">Add Class</button>
                   </div>
