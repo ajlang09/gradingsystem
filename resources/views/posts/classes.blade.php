@@ -20,6 +20,9 @@
                       Class Name
                     </th> 
                     <th>
+                      School year
+                    </th> 
+                    <th>
                         Students
                     </th>
                     <th>
@@ -40,6 +43,9 @@
                     
                     <td>
                        {{$ClassesRecords->class_name}}</a>
+                    </td>
+                    <td>
+                       {{$ClassesRecords->year}}</a>
                     </td>
                     
                     <td>

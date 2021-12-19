@@ -41,5 +41,16 @@ function formatCurrency (input, blur) {
 
 $(document).on('keyup',".number-only",function() {
     let new_ammount = formatCurrency($(this))
-    $(this).val(new_ammount) 
+    if (!new_ammount) {
+      $(this).val(0) 
+    } else {
+      $(this).val(new_ammount) 
+    }
 });
+
+$(document).on('blur',".number-only",function() {
+  let value = $(this).val()
+  if (''==value||null==value) {
+    $(this).val(0)
+  }
+})

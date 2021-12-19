@@ -16,6 +16,12 @@
                     <input type="text" name="class_name" id="class_name" placeholder="" 
                     class="form-control">
                 </div>
+                <div class="col-sm-12 mb-1">
+                    <label class="mb-1" for="year">Year</label>
+                    <br>
+                    <input type="text" name="year" id="year" placeholder="" 
+                    class="form-control">
+                </div>
 
                   <div class="col-sm-12 mb-1 mt-2">
                       <button type="submit" class="btn btn-primary">Add Class</button>

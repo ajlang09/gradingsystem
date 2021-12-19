@@ -127,6 +127,76 @@ class StudentController extends Controller
 
         $subjects = $class->subjects()->get();
 
-        return view('modules.class.student_profile', compact('class', 'student', 'subjects'));
+        $grades = $class->mappedGrades($studentId);
+
+        return view('modules.class.student_profile', compact('class', 'student', 'subjects', 'grades'));
+    }
+
+    public function studentGrade(Request $request)
+    {
+        $data = $request->all();
+        
+        $class = ClassesRecord::find($data['class_id']);
+
+        $grades = $class->rawGradesFor($data['student_id']);
+        
+        foreach ($grades as $grade) {
+            $grade->delete();
+        }
+
+        $classId   = $data['class_id'];
+        $studentId = $data['student_id'];
+        $gwa       = $data['gwa'];
+
+        $gradeData = [
+            'class_id'   => $classId,
+            'student_id' => $studentId,
+            'type'       => 'gwa',
+            'grade'      => $gwa,
+        ];
+
+        $this->saveGrade($gradeData);
+
+        foreach ($data['subject_id'] as $key => $value) {
+            $midterm   = $data['midterm'][$key];
+            $final     = $data['finals'][$key];
+            $total     = $data['total'][$key];
+            $subjectId = $data['subject_id'][$key];
+
+            // final
+            $gradeData = [
+                'class_id'   => $classId,
+                'student_id' => $studentId,
+            ];
+
+            $gradeData['subject_id'] = $subjectId;
+            $gradeData['type']       = 'finals';
+            $gradeData['grade']      = $final;
+
+            $this->saveGrade($gradeData);
+
+            $gradeData['subject_id'] = $subjectId;
+            $gradeData['type']       = 'midterms';
+            $gradeData['grade']      = $midterm;
+
+            $this->saveGrade($gradeData);
+
+            $gradeData['subject_id'] = $subjectId;
+            $gradeData['type']       = 'total';
+            $gradeData['grade']      = $total;
+
+            $this->saveGrade($gradeData);
+
+        }
+
+
+        flash()->success('Grades updated!');
+        return redirect()->back();
+
+    }
+
+    private function saveGrade($gradeData)
+    {
+        return \App\Models\Grade::create($gradeData);
     }
 }

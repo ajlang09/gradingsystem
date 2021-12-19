@@ -17,7 +17,7 @@
                     <input type="hidden" :name="`subject_id[${key}]`" :value="subject.subjectId">
                 </td>
                 <td  class="text-center">
-                    <input type="text" class="form-control number-only text-center" :name="`midterm[${key}]`" v-model="subject.midterm" @keyup="calculateTotal(key, subject)">
+                    <input type="text" class="form-control number-only text-center" :name="`midterm[${key}]`" v-model="subject.midterms" @keyup="calculateTotal(key, subject)">
                 </td>
                 <td  class="text-center">
                     <input type="text" class="form-control number-only text-center" :name="`finals[${key}]`"  v-model="subject.finals" @keyup="calculateTotal(key, subject)">
@@ -34,6 +34,7 @@
                 <td></td>
                 <td align="right"><b>Total GWA:</b></td>
                 <td align="center"><b>{{gwa}}</b></td>
+                <input type="hidden" name="gwa" :value="gwa">
             </tr>
         </tfoot>
     </table>
@@ -41,7 +42,7 @@
 </template>
 <script>
 export default {
-  props:['subjects','grades'],
+  props:['subjects','mappedgrades'],
   data() {
     return {
       gradeSubjects:[],
@@ -49,11 +50,22 @@ export default {
     }
   },
   created() {
-    if (!this.grades) {
+    if (!this.mappedgrades.grades.length) {
       this.generateSubjectModel()
     }
+
+    if (this.mappedgrades.grades.length) {
+      this.parseDatas()
+    }
+
   },
   methods: {
+    parseDatas() {
+      const mappedgrades = this.mappedgrades
+
+      this.gradeSubjects = mappedgrades.grades
+      this.gwa           = mappedgrades.gwa
+    },
     generateSubjectModel() {
       let gradeSubjects = []
 
@@ -61,7 +73,7 @@ export default {
         gradeSubjects.push({
           subject   : subject.name,
           subjectId : subject.id,
-          midterm   : 0,
+          midterms   : 0,
           finals    : 0,
           total     : 0,
         })        
@@ -70,16 +82,28 @@ export default {
       this.gradeSubjects = gradeSubjects
     },
     calculateTotal(key, subject) {
-      const total = (parseFloat(subject.midterm) + parseFloat(subject.finals)) / 2
+      
+      if (!subject.midterms) {
+        subject.midterms = 0
+        return
+      }
+      
+      if (!subject.finals) {
+        subject.finals = 0
+        return
+      }
+
+      const total = (parseFloat(subject.midterms) + parseFloat(subject.finals)) / 2
+
       this.gradeSubjects[key].total = total
       let gwa = 0
       let summation = 0
 
       _.forOwn(this.gradeSubjects, function(subject) {
-        summation += subject.total
+        summation += parseFloat(subject.total)
       })
 
-      this.gwa = summation / this.gradeSubjects.length
+      this.gwa = (summation / this.gradeSubjects.length).toFixed(2)
     }
   }
 }

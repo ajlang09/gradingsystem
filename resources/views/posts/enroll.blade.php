@@ -18,6 +18,11 @@
                                 <br>
                                 <input type="text" name="class_name" id="class_name" value="{{$data->class_name}}" class="form-control">
                             </div>
+                            <div class="col-sm-12 mb-1">
+                                <label class="mb-1" for="year">Year</label>
+                                <br>
+                                <input type="text" name="year" id="year" value="{{$data->year}}" class="form-control">
+                            </div>
                             <div class="col-sm-12 mb-1 mt-2">
                                 <button type="submit" class="btn btn-primary" name="action" value="update-class">UPDATE</button>
                             </div>

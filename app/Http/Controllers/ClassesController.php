@@ -92,7 +92,7 @@ class ClassesController extends Controller
             flash()->success('Subject added!');
         }
 
-        return redirect()->route('classes.admin');
+        return redirect()->back();
     }
 
     public function delete(Request $request){

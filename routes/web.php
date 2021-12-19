@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth','web']], function () {
     Route::post('/posts', [PostController::class, 'store']);
     
     Route::get('search/student', [StudentController::class, 'search']);
+    Route::post('/student/grade', [StudentController::class, 'studentGrade'])->name('student.grade');
     
     Route::get('/student', [StudentController::class, 'index'])->name('student');
     Route::post('/student', [StudentController::class, 'store'])->name('student.store');
@@ -75,6 +76,8 @@ Route::group(['middleware' => ['auth','web']], function () {
     Route::resource('subject',SubjectController::class);
 
     Route::get('search/subject', [SubjectController::class, 'search']);
+
+    Route::get('get/ranking/table', [RankingController::class, 'ranking']);
 
 });
 //OUT OF REACH
