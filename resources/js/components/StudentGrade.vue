@@ -1,3 +1,8 @@
+<style type="text/css">
+  .hide {
+    display: none;
+  }
+</style>
 <template>
 <div class="grades">
     <table class="table">
@@ -11,30 +16,64 @@
         </thead>
         <tbody>
             <template v-for="(subject,key) in gradeSubjects">
-            <tr>
-                <td>
-                    {{subject.subject}}
-                    <input type="hidden" :name="`subject_id[${key}]`" :value="subject.subjectId">
-                </td>
-                <td  class="text-center">
-                    <input type="text" class="form-control number-only text-center" :name="`midterm[${key}]`" v-model="subject.midterms" @keyup="calculateTotal(key, subject)">
-                </td>
-                <td  class="text-center">
-                    <input type="text" class="form-control number-only text-center" :name="`finals[${key}]`"  v-model="subject.finals" @keyup="calculateTotal(key, subject)">
-                </td>
-                <td  class="text-center">
-                    <input type="text" class="form-control number-only text-center disable" readonly  :name="`total[${key}]`"  v-model="subject.total">
-                </td>
-            </tr>
+              <template v-if="'teacher' == mode">
+               <tr v-if="subject.userId == teacherId">
+                  <td>
+                      {{subject.subject}}
+                      <input type="hidden" :name="`subject_id[${key}]`" :value="subject.subjectId">
+                  </td>
+                  <td  class="text-center">
+                      <input type="text" class="form-control number-only text-center" :name="`midterm[${key}]`" v-model="subject.midterms" @keyup="calculateTotal(key, subject)">
+                  </td>
+                  <td  class="text-center">
+                      <input type="text" class="form-control number-only text-center" :name="`finals[${key}]`"  v-model="subject.finals" @keyup="calculateTotal(key, subject)">
+                  </td>
+                  <td  class="text-center">
+                      <input type="text" class="form-control number-only text-center disable" readonly  :name="`total[${key}]`"  v-model="subject.total">
+                  </td>
+              </tr>
+               <tr v-else class="hide">
+                  <td>
+                      {{subject.subject}}
+                      <input type="hidden" :name="`subject_id[${key}]`" :value="subject.subjectId">
+                  </td>
+                  <td  class="text-center">
+                      <input type="hidden" class="form-control number-only text-center asdf" :name="`midterm[${key}]`" :value="subject.midterms" @keyup="calculateTotal(key, subject)">
+                  </td>
+                  <td  class="text-center">
+                      <input type="hidden" class="form-control number-only text-center" :name="`finals[${key}]`"  :value="subject.finals" @keyup="calculateTotal(key, subject)">
+                  </td>
+                  <td  class="text-center">
+                      <input type="hidden" class="form-control number-only text-center disable" readonly  :name="`total[${key}]`"  :value="subject.total">
+                  </td>
+               </tr>
+              </template>
+              <template v-if="'teacher' != mode">
+              <tr>
+                  <td>
+                      {{subject.subject}}
+                      <input type="hidden" :name="`subject_id[${key}]`" :value="subject.subjectId">
+                  </td>
+                  <td  class="text-center">
+                      <input type="text" class="form-control number-only text-center" :name="`midterm[${key}]`" v-model="subject.midterms" @keyup="calculateTotal(key, subject)">
+                  </td>
+                  <td  class="text-center">
+                      <input type="text" class="form-control number-only text-center" :name="`finals[${key}]`"  v-model="subject.finals" @keyup="calculateTotal(key, subject)">
+                  </td>
+                  <td  class="text-center">
+                      <input type="text" class="form-control number-only text-center disable" readonly  :name="`total[${key}]`"  v-model="subject.total">
+                  </td>
+              </tr>
+              </template>
             </template>
         </tbody>
-        <tfoot>
+        <input type="hidden" name="gwa" :value="gwa">
+        <tfoot v-if="'teacher' != mode">
             <tr>
                 <td></td>
                 <td></td>
                 <td align="right"><b>Total GWA:</b></td>
                 <td align="center"><b>{{gwa}}</b></td>
-                <input type="hidden" name="gwa" :value="gwa">
             </tr>
         </tfoot>
     </table>
@@ -42,11 +81,12 @@
 </template>
 <script>
 export default {
-  props:['subjects','mappedgrades'],
+  props:['subjects','mappedgrades', 'mode'],
   data() {
     return {
       gradeSubjects:[],
       gwa:0,
+      teacherId:''
     }
   },
   created() {
@@ -58,12 +98,16 @@ export default {
       this.parseDatas()
     }
 
+    if ('teacher'== this.mode) {
+      this.teacherId = document.querySelector('meta[name="teacher_id"]').content
+    }
   },
   methods: {
     parseDatas() {
       const mappedgrades = this.mappedgrades
 
       this.gradeSubjects = mappedgrades.grades
+      console.log(this.gradeSubjects)
       this.gwa           = mappedgrades.gwa
     },
     generateSubjectModel() {
@@ -73,6 +117,7 @@ export default {
         gradeSubjects.push({
           subject   : subject.name,
           subjectId : subject.id,
+          useId : subject.id,
           midterms   : 0,
           finals    : 0,
           total     : 0,

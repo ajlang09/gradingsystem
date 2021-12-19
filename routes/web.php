@@ -8,6 +8,8 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TeacherController;
+
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -80,6 +82,15 @@ Route::group(['middleware' => ['auth','web']], function () {
     Route::get('search/subject', [SubjectController::class, 'search']);
 
     Route::get('get/ranking/table', [RankingController::class, 'ranking']);
+
+
+    Route::get('teacher/subjects', [TeacherController::class, 'subject'])->name('teacher.subjects');
+    Route::get('teacher/class', [TeacherController::class, 'class'])->name('teacher.class');
+    Route::get('teacher/{id}/subjects', [TeacherController::class, 'getSubjects']);
+    Route::get('teacher/{id}/class', [TeacherController::class, 'getClass']);
+    Route::get('teacher/{subjectId}/{teacherId}/subject/students', [TeacherController::class, 'subjectStudents']);
+    Route::get('teacher/{classId}/{teacherId}/class/students', [TeacherController::class, 'classStudents']);
+    Route::get('teacher/subject/students/{studentId}/class/{classId}', [TeacherController::class, 'studentGrade'])->name('students.subject');
 
 });
 //OUT OF REACH

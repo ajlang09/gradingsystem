@@ -31,6 +31,17 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-12">
+                                <label class="mb-1" for="teacher">Teacher</label>
+                                <select class="form-control" name="user_id">
+                                    <option value=""></option>
+                                    @foreach($teachers as $teacher)
+                                    <option value="{{ $teacher->id }}" {{$subject->user_id == $teacher->id ? 'selected' : ''}}>{{ $teacher->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </div>

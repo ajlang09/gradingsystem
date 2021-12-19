@@ -18,6 +18,7 @@
                         <tr>
                             <th>Subject</th>
                             <th>Year</th>
+                            <th>Teacher</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -26,6 +27,7 @@
                         <tr>
                             <td>{{$subject->name}}</td>
                             <td>{{$subject->year}}</td>
+                            <td>{{ $subject->teacher()->first() ? $subject->teacher()->first()->name : ''}}</td>
                             <td>
                                 <a href="{{route('subject.edit',$subject->id)}}" class="btn btn-warning">Edit</a>
                                 <form action="{{route('subject.destroy',$subject->id)}}" method="post">

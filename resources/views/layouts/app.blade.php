@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Grading System</title>
+    @if(auth()->user() && 'teacher' == auth()->user()->roles()->first()->name)
+        <meta name="teacher_id" content="{{auth()->id()}}">
+    @endif
   
     <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/data_table.css') }}">
@@ -22,7 +25,7 @@
                 <div class="collapse navbar-collapse" id="navbarsExample09">
                     @auth
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        @if('users' == auth()->user()->getTable())
+                        @if('admin' == auth()->user()->roles()->first()->name)
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
                         </li>
@@ -47,14 +50,14 @@
                             <a class="nav-link" href="{{route('users.index')}}">User</a>
                         </li>
                         @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('classes')}}">Classes</a>
-                        </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('rank')}}">Ranking</a>
+                            <a class="nav-link" href="{{route('teacher.subjects')}}">Subject</a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('teacher.class')}}">Class</a>
+                        </li>
+                        
                         @endif
                     </ul>
                     <div>{{auth()->user()->name}}</div>

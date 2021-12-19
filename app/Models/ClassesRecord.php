@@ -52,8 +52,9 @@ class ClassesRecord extends Authenticatable
             if (!isset($initialGroup[$rawGrade->subject_id])) {
                 $subject = $rawGrade->subject()->first();
                 $initialGroup[$rawGrade->subject_id] = [
-                    'subject'   =>$subject->name,
-                    'subjectId' =>$subject->id, 
+                    'subject'   => $subject->name,
+                    'subjectId' => $subject->id, 
+                    'userId'    => $subject->user_id, 
                 ];
             }
             $initialGroup[$rawGrade->subject_id][$rawGrade->type] =  $rawGrade->grade;

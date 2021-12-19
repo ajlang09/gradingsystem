@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Subject;
 use App\Models\ClassesRecord;
+use App\Models\User;
 
 class SubjectController extends Controller
 {
@@ -16,7 +17,12 @@ class SubjectController extends Controller
 
     public function create()
     {
-        return view('modules.subject.create');
+        
+        $teachers = User::whereHas('roles', function($query) {
+            $query->where('name','teacher');
+        })->get();
+
+        return view('modules.subject.create', compact('teachers'));
     }
 
     public function store(Request $request)
@@ -40,7 +46,11 @@ class SubjectController extends Controller
             return redirect()->route('subject.index');
         }
 
-        return view('modules.subject.edit', compact('subject'));
+        $teachers = User::whereHas('roles', function($query) {
+            $query->where('name','teacher');
+        })->get();
+
+        return view('modules.subject.edit', compact('subject','teachers'));
     }
 
 
