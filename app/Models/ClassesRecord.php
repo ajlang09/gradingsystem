@@ -37,11 +37,12 @@ class ClassesRecord extends Authenticatable
         return \App\Models\Grade::where('class_id', $this->class_id)->where('student_id', $studentId)->get();
     }
 
-    public function mappedGrades($studentId)
+    public function mappedGrades($studentId, $subjects)
     {
         $rawGrades = $this->rawGradesFor($studentId);
         $initialGroup = [];
         $gwa = 0;
+
         foreach ($rawGrades as $rawGrade) {
 
             if (empty($rawGrade->subject_id)) {
@@ -58,6 +59,19 @@ class ClassesRecord extends Authenticatable
                 ];
             }
             $initialGroup[$rawGrade->subject_id][$rawGrade->type] =  $rawGrade->grade;
+        }
+
+        foreach ($subjects as $rawSubject) {
+            if (!isset($initialGroup[$rawSubject->id])) {
+                $initialGroup[$rawSubject->id] = [
+                    'subject'   => $rawSubject->name,
+                    'subjectId' => $rawSubject->id, 
+                    'userId'    => $rawSubject->user_id, 
+                    'finals' => 0,
+                    'midterms' => 0,
+                    'total' => 0,
+                ];
+            }
         }
 
         $mappedGrade = [];
