@@ -123,9 +123,10 @@ class TeacherController extends Controller
             return redirect()->back();
         }
 
-        $grades = $class->mappedGrades($studentId);
-        
         $subjects = $class->subjects()->get();
+
+        $grades = $class->mappedGrades($studentId, $subjects);
+        
 
         return view('modules.teacher.student_profile', compact('class', 'student', 'subjects', 'grades'));
     }

@@ -127,7 +127,8 @@ class StudentController extends Controller
 
         $subjects = $class->subjects()->get();
 
-        $grades = $class->mappedGrades($studentId);
+        $grades = $class->mappedGrades($studentId, $subjects);
+
 
         return view('modules.class.student_profile', compact('class', 'student', 'subjects', 'grades'));
     }

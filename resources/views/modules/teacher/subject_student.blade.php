@@ -25,7 +25,7 @@
                                     <td>{{$rawStudent->name}}</td>
                                     <td>{{ $student['class']->class_name }} {{ $student['class']->year ?'- '.$student['class']->year:'' }}</td>
                                     <td>
-                                        <a href="{{route('students.subject',[$subject->id, $rawStudent->id, $student['class']->class_id])}}" class="btn btn-warning">Grade</a>
+                                        <a href="{{route('students.subject',[$rawStudent->id, $student['class']->class_id])}}" class="btn btn-warning">Grade</a>
                                     </td>
                                 </tr>
                             @endforeach
