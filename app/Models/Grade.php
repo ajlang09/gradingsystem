@@ -16,6 +16,7 @@ class Grade extends Model
         'subject_id',
         'type',
         'grade',
+        'term',
     ];
 
     public function subject()

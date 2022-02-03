@@ -15,6 +15,10 @@ window.swal     = window.Swal = require('sweetalert2')
 window.alertify = require('alertifyjs');
 // require('daterangepicker');
 // require('magnific-popup')
+// window.Popper = require('popper.js').default;
+
+require('bootstrap');
+
 // } catch (e) {
 //     console.log(e)
 // }
@@ -22,6 +26,10 @@ window.alertify = require('alertifyjs');
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+window.csrfToken = document.querySelector('meta[name="csrf_token"]').content
+window.apiUrl    = document.querySelector('meta[name="url"]').content
+
 
 
 /**

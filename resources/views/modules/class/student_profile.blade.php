@@ -33,21 +33,21 @@
         </div>
     </div>
     <hr>
-    <form action="{{route('student.grade')}}" method="post">
+    {{-- <form action="{{route('student.grade')}}" method="post"> --}}
         @csrf
         <input type="hidden" name="class_id" value="{{$class->class_id}}">
         <input type="hidden" name="student_id" value="{{$student->id}}">
         <div class="row">
             <div class="col-12">
-                <student-grade :subjects="{{json_encode($subjects)}}" :mappedgrades="{{json_encode($grades)}}" />
+                <student-grade studentid="{{$student->id}}" classid="{{$class->class_id}}" :subjects="{{json_encode($subjects)}}" :mappedgrades="{{json_encode($grades)}}" />
             </div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-12" align="right">
                 <button class="btn btn-primary" type="submit">Save</button>
             </div>
-        </div>
-    </form>
+        </div> --}}
+    {{-- </form> --}}
 </div>
 @endsection
 @section('script')

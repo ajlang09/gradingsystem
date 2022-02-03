@@ -138,8 +138,9 @@ class StudentController extends Controller
         $data = $request->all();
         
         $class = ClassesRecord::find($data['class_id']);
+        $term  = $data['term'];
 
-        $grades = $class->rawGradesFor($data['student_id']);
+        $grades = $class->rawGradesFor($data['student_id'], $term, $data['subject_id']);
         
         foreach ($grades as $grade) {
             $grade->delete();
@@ -147,49 +148,47 @@ class StudentController extends Controller
 
         $classId   = $data['class_id'];
         $studentId = $data['student_id'];
-        $gwa       = $data['gwa'];
 
+        $breakDown = [
+            'class_standing' => 0.6,
+            'major_exams' => 0.3,
+            'studentship' => 0.1,
+        ];
+
+        foreach ($breakDown as $type => $percentage) {
+            $grade = $data[$type];
+
+            $gradeData = [
+                'class_id'   => $classId,
+                'student_id' => $studentId,
+                'subject_id' => $data['subject_id'],
+                'type'       => $type,
+                'grade'      => $grade,
+                'term'       => $term,
+            ];
+
+            $this->saveGrade($gradeData);
+        }
+
+        $totalGrade = 0;
+
+        foreach ($breakDown as $type => $percentage) {
+            $totalGrade += $data[$type] * $percentage;
+        }
+        
         $gradeData = [
             'class_id'   => $classId,
             'student_id' => $studentId,
-            'type'       => 'gwa',
-            'grade'      => $gwa,
+            'subject_id' => $data['subject_id'],
+            'type'       => $term,
+            'grade'      => $totalGrade,
+            'term'       => $term,
         ];
 
         $this->saveGrade($gradeData);
 
-        foreach ($data['subject_id'] as $key => $value) {
-            $midterm   = $data['midterm'][$key];
-            $final     = $data['finals'][$key];
-            $total     = $data['total'][$key];
-            $subjectId = $data['subject_id'][$key];
 
-            // final
-            $gradeData = [
-                'class_id'   => $classId,
-                'student_id' => $studentId,
-            ];
-
-            $gradeData['subject_id'] = $subjectId;
-            $gradeData['type']       = 'finals';
-            $gradeData['grade']      = $final;
-
-            $this->saveGrade($gradeData);
-
-            $gradeData['subject_id'] = $subjectId;
-            $gradeData['type']       = 'midterms';
-            $gradeData['grade']      = $midterm;
-
-            $this->saveGrade($gradeData);
-
-            $gradeData['subject_id'] = $subjectId;
-            $gradeData['type']       = 'total';
-            $gradeData['grade']      = $total;
-
-            $this->saveGrade($gradeData);
-
-        }
-
+        $class->calculateTotalGradeForSubject($data['student_id'], $data['subject_id']);
 
         flash()->success('Grades updated!');
         return redirect()->back();
