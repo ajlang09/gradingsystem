@@ -59,14 +59,14 @@ class RankingController extends Controller
             [
                 'rank' => "Dean's Lister",
                 'grade' => [
-                    'lower' => 95,
-                    'high' => 97.99,
+                    'lower' => 92,
+                    'high' => 94.99,
                 ],
             ],
             [
                 'rank' => "Presidents's Lister",
                 'grade' => [
-                    'lower' => 98,
+                    'lower' => 95,
                     'high' => 100,
                 ],
             ],

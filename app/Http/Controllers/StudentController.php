@@ -139,7 +139,6 @@ class StudentController extends Controller
         
         $class = ClassesRecord::find($data['class_id']);
         $term  = $data['term'];
-
         $grades = $class->rawGradesFor($data['student_id'], $term, $data['subject_id']);
         
         foreach ($grades as $grade) {

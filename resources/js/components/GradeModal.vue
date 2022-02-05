@@ -63,6 +63,7 @@ export default {
     }
   },
   created() {
+    console.log(this.studentid)
   },
   mounted() {
 

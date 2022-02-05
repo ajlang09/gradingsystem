@@ -82,6 +82,8 @@ export default {
     //   this.generateSubjectModel()
     // }
 
+    console.log(this.studentid,'jasdf')
+
     this.parseDatas()
 
     if ('teacher'== this.mode) {
