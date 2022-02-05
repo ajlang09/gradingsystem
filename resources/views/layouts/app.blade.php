@@ -31,10 +31,6 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         @if('admin' == auth()->user()->roles()->first()->name)
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
-                        </li>
-
-                        <li class="nav-item">
                             <a class="nav-link" href="{{route('student')}}">Students</a>
                         </li>
 
