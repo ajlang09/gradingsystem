@@ -5,6 +5,7 @@
     <div class="row mt-4">
         <div class="col-12">
             <a href="{{route('classes.classview',$class->class_id)}}" class="btn btn-danger">Back</a>
+            <a href="javascript:void(0)" onclick="screenCap()" class="btn btn-primary float-right">Capture</a>
         </div>
     </div>
     <div class="row mt-4">
@@ -52,4 +53,21 @@
 @endsection
 @section('script')
 <script src="{{ asset(mix('/js/components.js')) }}"></script>
+<script type="text/javascript">
+
+
+function screenCap() {
+    const screenshotTarget = document.body;
+
+    html2canvas(screenshotTarget).then((canvas) => {
+        const base64image = canvas.toDataURL("image/png");
+         var a = document.createElement("a"); //Create <a>
+        a.href = base64image; //Image Base64 Goes here
+        a.download = "Image.png"; //File name Here
+        a.click(); //Downloaded file
+        // document.getElementById('screen-cap').src = base64image
+    });   
+}
+
+</script>
 @endsection

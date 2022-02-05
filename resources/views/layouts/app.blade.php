@@ -82,6 +82,8 @@
     </script>
     <script src="{{ asset(mix('/js/app.js')) }}"></script>
     <script src="{{ asset('js/data_table.js') }}"></script>
+    <script src="{{ asset('js/html2canvas.js') }}"></script>
+    
     @yield('script')
 
     @include('flash::message')
