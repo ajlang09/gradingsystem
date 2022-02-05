@@ -22,6 +22,14 @@
                     <input type="text" name="year" id="year" placeholder="" 
                     class="form-control">
                 </div>
+                <div class="col-sm-12 mb-1">
+                    <label class="mb-1" for="semester">Semester</label>
+                    <br>
+                    <select class="form-control" name="semester" id="semester" required>
+                      <option value="first-semester">1st semester</option>
+                      <option value="second-semester">2nd semester</option>
+                    </select>
+                </div>
                   <div class="col-sm-12 mb-1 mt-2">
                       <button type="submit" class="btn btn-primary">Add Class</button>
                   </div>

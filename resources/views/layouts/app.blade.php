@@ -15,18 +15,19 @@
   
     <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/data_table.css') }}">
+    @yield('style')
+
 </head>
 <body class="bg-gray-200">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light rounded" aria-label="Eleventh navbar example">
-     
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">GRADING SYSTEM FOR COECS</a>
+                @auth
+                <a class="navbar-brand" href="#"><img src="{{url('images/PSAU_Logo.png')}}" style="width:75px;height:75px;"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarsExample09">
-                    @auth
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         @if('admin' == auth()->user()->roles()->first()->name)
                         <li class="nav-item">
@@ -60,7 +61,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('teacher.class')}}">Class</a>
                         </li>
-                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('teacher.rank')}}">Ranking</a>
+                        </li>
                         @endif
                     </ul>
                     <div>{{auth()->user()->name}}</div>
@@ -69,23 +72,9 @@
                             @csrf
                             <button class="btn btn-secondary m-2" type="submit">Logout</button>
                         </form>
-                    <div>
-                        @endauth
-                        @guest 
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                        </ul>
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{route('login')}}">Log in</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">Register</a>
-                            </li>  
-                        </ul>
-                        @endguest 
                     </div>
                 </div>
+                @endauth
             </div>
         </nav>
         @include('flash::message')

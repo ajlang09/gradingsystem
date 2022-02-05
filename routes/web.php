@@ -26,7 +26,18 @@ use App\Http\Controllers\Auth\RegisterController;
 */
 
 Route::get('/', function() {
-    return view('posts.home');
+
+    if (!auth()->user()) {
+        return view('post.home');
+    }
+
+    $role = auth()->user()->roles()->first()->name;
+    
+    if ('teacher' == $role) {
+        return redirect()->route('teacher.rank');
+    }
+
+    return redirect()->route('rank.admin');
 })->name('home');
 
 
@@ -85,6 +96,7 @@ Route::group(['middleware' => ['auth','web']], function () {
 
 
     Route::get('teacher/subjects', [TeacherController::class, 'subject'])->name('teacher.subjects');
+    Route::get('teacher/rank', [RankingController::class, 'index'])->name('teacher.rank');
     Route::get('teacher/class', [TeacherController::class, 'class'])->name('teacher.class');
     Route::get('teacher/{id}/subjects', [TeacherController::class, 'getSubjects']);
     Route::get('teacher/{id}/class', [TeacherController::class, 'getClass']);

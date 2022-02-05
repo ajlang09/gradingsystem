@@ -5,10 +5,34 @@
       <h3>Ranking Tables</h3>
     </div>
   </div>
-  <div class="row mt-3">
+  <div class="row">
     <div class="col-12">
+      <span class="btn btn-primary" @click="toggleGwa">TOGGLE GWA</span>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-12 col-md-4">
       <select class="form-control" v-model="filter.year" @change="fetchRanking">
         <option v-for="year in yearOption" :value="year"> {{ year }} </option>
+      </select>
+    </div>
+    <div class="col-12 col-md-4">
+      <select class="form-control" v-model="filter.semester" @change="fetchRanking">
+        <option value="">Select Semester</option>
+        <option value="first-semester">1st semester</option>
+        <option value="second-semester">2nd semester</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-4">
+      <select class="form-control" v-model="filter.type" @change="fetchRanking">
+        <option value="">Select Ranking</option>
+        <template v-for="classRecord in semesterClasses[filter.semester]">
+          <option :value="`class-${classRecord.class_id}`">By Classes - {{ classRecord.class_name }}</option>
+        </template>
+        <!-- <template v-for="subject in subjects">
+          <option :value="`subject-${subject.id}`">By Subject - {{subject.name}}</option>
+        </template> -->
+        <option value="all-student">All Student</option>
       </select>
     </div>
   </div>
@@ -17,22 +41,28 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Rank</th>
+            <th></th>
             <th>Name</th>
-            <th class="text-center">GWA</th>
+            <template v-if="showGwa">
+              <th class="text-center">GWA</th>
+            </template>
+            <th>Rank</th>
           </tr>
         </thead>
         <tbody>
           <template v-if="!rankings.length">
             <tr>
-              <td align="center" colspan="2">No rankings for this year</td>
+              <td align="center" colspan="10">No rankings for this year</td>
             </tr>
           </template>
           <template v-for="(ranking,rank) in rankings">
             <tr>
               <td><b>{{rank + 1}}</b></td>
               <td>{{ranking.student.name}}</td>
-              <td class="text-center">{{ranking.gwa}}</td>
+              <template v-if="showGwa">
+                <td class="text-center">{{ranking.gwa}}</td>
+              </template>
+              <td>{{ranking.rank}}</td>
             </tr>
           </template>
         </tbody>
@@ -43,20 +73,43 @@
 </template>
 <script>
 export default {
+  props:['classes', 'subjects'],
   data() {
     return {
       filter: {
         year:this.year(new Date),
+        type:'',
+        semester:'',
       },
       yearOption: [],
       rankings:[],
+      semesterClasses: {},
+      showGwa:true,
     }
   },
   async created() {
+    await this.mappedClass()
     await this.generateYearOption()
     await this.fetchRanking()
   },
   methods: {
+    mappedClass() {
+      let semesterClasses = {}
+
+      _.forOwn(this.classes, function(classRecord){
+        if (!semesterClasses[classRecord.semester]) {
+          semesterClasses[classRecord.semester] = []
+
+        }
+
+        semesterClasses[classRecord.semester].push(classRecord)
+      })
+
+      this.semesterClasses = semesterClasses
+    },
+    toggleGwa() {
+      this.showGwa = !this.showGwa
+    },
     generateYearOption() {
       const yearNow = parseInt(this.year(new Date)) + 10
       let yearOption = []
@@ -71,7 +124,7 @@ export default {
       }
     },
     async fetchRanking() {
-      const url = window.apiUrl + `/get/ranking/table?year=${this.filter.year}`
+      const url = window.apiUrl + `/get/ranking/table?year=${this.filter.year}&type=${this.filter.type}&semester=${this.filter.semester}`
       try {
         const response = await axios.get(url)
         this.rankings = response.data.original

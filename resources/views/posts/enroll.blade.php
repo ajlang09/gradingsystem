@@ -23,6 +23,15 @@
                                 <br>
                                 <input type="text" name="year" id="year" value="{{$data->year}}" class="form-control">
                             </div>
+                            <div class="col-sm-12 mb-1">
+                                <label class="mb-1" for="semester">Semester</label>
+                                <br>
+                                <select class="form-control" name="semester" id="semester" required>
+                                  <option value=""></option>
+                                  <option value="first-semester" {{'first-semester' == $data->semester ? 'selected' : ''}} >1st semester</option>
+                                  <option value="second-semester" {{'second-semester' == $data->semester ? 'selected' : '' }}>2nd semester</option>
+                                </select>
+                            </div>
                             <div class="col-sm-12 mb-1 mt-2">
                                 <button type="submit" class="btn btn-primary" name="action" value="update-class">UPDATE</button>
                             </div>

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="components">
-    <ranking-table />
+    <ranking-table :classes="{{json_encode($classes)}}" :subjects="{{json_encode($subjects)}}"/>
 </div>
 @endsection
 

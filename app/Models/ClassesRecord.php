@@ -15,6 +15,7 @@ class ClassesRecord extends Authenticatable
         'class_name',
         'students',
         'year',
+        'semester',
     ];
 
     public function students()
@@ -115,10 +116,21 @@ class ClassesRecord extends Authenticatable
 
         $termGrade = [];
         $gwa = 0;
+        $allSubjectId = [];
+
+        foreach ($subjects as $key => $subject) {
+            $allSubjectId[] = $subject->id;
+        }
+
         foreach ($terms as $term) {
             $initialGroup = [];
             $rawGrades = $this->rawGradesFor($studentId, $term);
+
             foreach ($rawGrades as $rawGrade) {
+                if (!in_array($rawGrade->subject_id, $allSubjectId)) {
+                    continue;
+                }
+
                 if (empty($rawGrade->subject_id)) {
                     $gwa = $rawGrade->grade;
                     continue;
