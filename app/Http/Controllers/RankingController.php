@@ -55,7 +55,6 @@ class RankingController extends Controller
     {
         $ranking = [];
         $group = [];
-
         $labels = [
             [
                 'rank' => "Dean's Lister",
@@ -110,7 +109,7 @@ class RankingController extends Controller
                 if ($rank) {
                     continue;
                 }
-                if ($grade['lower'] <= $gwa && $gwa <= $grade['lower']) {
+                if ($grade['lower'] <= $gwa && $gwa <= $grade['high']) {
                     $rank = $label['rank'];
                 }
             }
@@ -141,6 +140,6 @@ class RankingController extends Controller
             $totalGwa += $grade->grade;
         }
 
-        return $totalGwa / sizeof($grades);
+        return number_format($totalGwa / sizeof($grades), 2);
     }
 }
