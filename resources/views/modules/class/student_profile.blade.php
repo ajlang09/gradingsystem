@@ -8,47 +8,49 @@
             <a href="javascript:void(0)" onclick="screenCap()" class="btn btn-primary float-right">Capture</a>
         </div>
     </div>
-    <div class="row mt-4">
-        <div class="col-12">
-            <h3 class="float-left">Student Class Profile</h3>
-            <h3 class="float-right">{{$class->class_name}}</h3>
+    <div id="student-profile">
+        <div class="row mt-4">
+            <div class="col-12">
+                <h3 class="float-left">Student Class Profile</h3>
+                <h3 class="float-right">{{$class->class_name}}</h3>
+            </div>
         </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-12">
-            <label>Name:</label>
-            <span><b>{{$student->name}}</b></span>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <label>Email:</label>
-            <span><b>{{$student->email}}</b></span>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <label>Contact No.:</label>
-            <span><b>{{$student->contact_no}}</b></span>
-        </div>
-    </div>
-    <hr>
-    {{-- <form action="{{route('student.grade')}}" method="post"> --}}
-        @csrf
-        <input type="hidden" name="class_id" value="{{$class->class_id}}">
-        <input type="hidden" name="student_id" value="{{$student->id}}">
+        <hr>
         <div class="row">
             <div class="col-12">
-                <student-grade studentid="{{$student->id}}" classid="{{$class->class_id}}" :subjects="{{json_encode($subjects)}}" :mappedgrades="{{json_encode($grades)}}" />
+                <label>Name:</label>
+                <span><b>{{$student->name}}</b></span>
             </div>
         </div>
-        {{-- <div class="row">
-            <div class="col-12" align="right">
-                <button class="btn btn-primary" type="submit">Save</button>
+        <div class="row">
+            <div class="col-12">
+                <label>Email:</label>
+                <span><b>{{$student->email}}</b></span>
             </div>
-        </div> --}}
-    {{-- </form> --}}
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label>Contact No.:</label>
+                <span><b>{{$student->contact_no}}</b></span>
+            </div>
+        </div>
+        <hr>
+        {{-- <form action="{{route('student.grade')}}" method="post"> --}}
+            @csrf
+            <input type="hidden" name="class_id" value="{{$class->class_id}}">
+            <input type="hidden" name="student_id" value="{{$student->id}}">
+            <div class="row">
+                <div class="col-12">
+                    <student-grade studentid="{{$student->id}}" classid="{{$class->class_id}}" :subjects="{{json_encode($subjects)}}" :mappedgrades="{{json_encode($grades)}}" />
+                </div>
+            </div>
+            {{-- <div class="row">
+                <div class="col-12" align="right">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+            </div> --}}
+        {{-- </form> --}}
+    </div>
 </div>
 @endsection
 @section('script')
@@ -57,7 +59,9 @@
 
 
 function screenCap() {
-    const screenshotTarget = document.body;
+    // const screenshotTarget = document.body;
+    const screenshotTarget = document.getElementById('student-profile');
+    
 
     html2canvas(screenshotTarget).then((canvas) => {
         const base64image = canvas.toDataURL("image/png");
