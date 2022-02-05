@@ -28,7 +28,7 @@ use App\Http\Controllers\Auth\RegisterController;
 Route::get('/', function() {
 
     if (!auth()->user()) {
-        return view('post.home');
+        return redirect()->route('login');
     }
 
     $role = auth()->user()->roles()->first()->name;
