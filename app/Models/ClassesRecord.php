@@ -38,7 +38,8 @@ class ClassesRecord extends Authenticatable
 
         $query = \App\Models\Grade::query();
 
-        $query->where('class_id', $this->class_id);
+        $query->where('class_id', $this->class_id)
+            ->where('student_id', $studentId);
 
         if ($term) {
             $query->where('term', $term);
