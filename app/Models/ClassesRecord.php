@@ -57,7 +57,8 @@ class ClassesRecord extends Authenticatable
 
         $query = \App\Models\Grade::query();
 
-        $query->where('class_id', $this->class_id);
+        $query->where('class_id', $this->class_id)
+            ->where('student_id', $studentId);
 
         $query->where('subject_id', $subjectId);
 
@@ -73,11 +74,12 @@ class ClassesRecord extends Authenticatable
 
         $total = \App\Models\Grade::query();
 
-        $total->where('subject_id', $subjectId);
+        $total->where('subject_id', $subjectId)
+            ->where('student_id', $studentId);
         $total->where('term','total');
-        $total->where('type','total')->first();
+        $totalcheck = $total->where('type','total')->first();
 
-        if ($total) {
+        if ($totalcheck) {
             $total->delete();
         }
 
@@ -94,7 +96,7 @@ class ClassesRecord extends Authenticatable
         }
 
         $totalGrade['total'] = ($totalGrade['midterm'] + $totalGrade['finals']) / 2;
-
+        
         $gradeData = [
             'class_id'   => $this->class_id,
             'student_id' => $studentId,
@@ -103,7 +105,6 @@ class ClassesRecord extends Authenticatable
             'grade'      => $totalGrade['total'],
             'term'       => 'total',
         ];
-
 
         return Grade::create($gradeData);
     }
@@ -162,6 +163,12 @@ class ClassesRecord extends Authenticatable
                     $initialGroup[$rawSubject->id][$term] = 0;
                 }
             }
+
+            foreach ($initialGroup as $key => $value) { 
+                if (!isset($value[$term])) {
+                    $initialGroup[$key][$term] = 0;
+                }
+            }
             
             $mappedGrade = [];
 
@@ -173,6 +180,7 @@ class ClassesRecord extends Authenticatable
         }
 
         $totalAverage = 0;
+            
         foreach ($termGrade['midterm'] as $key => $value) {
             $midterm = $termGrade['midterm'][$key]['midterm'];
             $finals = $termGrade['finals'][$key]['finals'];
