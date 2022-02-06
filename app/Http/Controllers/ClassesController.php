@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\ClassesRecord;
 use App\Models\StudentRecord;
 use App\Models\Subject;
+use App\Models\Grade;
 
 
 class ClassesController extends Controller
@@ -148,6 +149,13 @@ class ClassesController extends Controller
             return redirect()->back();
         }
 
+        $grades = Grade::where('subject_id', $subject->id)
+        ->where('class_id', $dataModel->id)->get();
+
+        foreach ($grades as $grade) {
+            $grade->delete();
+        }
+        
         $dataModel->subjects()->detach($data['subject_id']);
 
         flash()->success('Subject removed from class!');
