@@ -82,7 +82,7 @@ export default {
     //   this.generateSubjectModel()
     // }
 
-    console.log(this.studentid,'jasdf')
+    console.log(this.mode)
 
     this.parseDatas()
 
@@ -137,6 +137,9 @@ export default {
       this.gwa = (summation / this.gradeSubjects.length).toFixed(2)
     },
     openGradeModal(subject, term) {
+      if ('student' == this.mode) {
+        return
+      }
 
       this.gradeModal= {
         term:term, 

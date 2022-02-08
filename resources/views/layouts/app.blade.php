@@ -9,7 +9,7 @@
     <meta name="csrf_token" content="{{ csrf_token() }}">
     <meta name="url" content="{{url('/')}}">
 
-    @if(auth()->user() && 'teacher' == auth()->user()->roles()->first()->name)
+    @if(auth()->user() &&  'users' == auth()->user()->getTable() && 'teacher' == auth()->user()->roles()->first()->name)
         <meta name="teacher_id" content="{{auth()->id()}}">
     @endif
   
@@ -29,7 +29,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarsExample09">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        @if('admin' == auth()->user()->roles()->first()->name)
+                        @if('users' == auth()->user()->getTable() && 'admin' == auth()->user()->roles()->first()->name)
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('student')}}">Students</a>
                         </li>
@@ -49,8 +49,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('users.index')}}">User</a>
                         </li>
+                        @elseif(auth()->user() &&  'student_records' == auth()->user()->getTable())
+                        {{-- empty  --}}
                         @else
-
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('teacher.subjects')}}">Subject</a>
                         </li>

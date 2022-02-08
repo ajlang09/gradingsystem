@@ -12,10 +12,34 @@ use App\Models\Grade;
 
 class ClassesController extends Controller
 {
+
+    public function student_grades($classId)
+    {
+        $studentId = auth()->id();
+        $class = \App\Models\ClassesRecord::find($classId);
+
+        if (empty($class)) {
+            flash()->error('Class does not exist');
+            return redirect()->back();
+        }
+
+        $student = \App\Models\StudentRecord::find($studentId);
+
+        if (empty($student)) {
+            flash()->error('Student does not exist');
+            return redirect()->back();
+        }
+
+        $subjects = $class->subjects()->get();
+
+        $grades = $class->mappedGrades($studentId, $subjects);
+
+        return view('modules.student.grade', compact('class', 'student', 'subjects', 'grades'));
+    }
+
     public function index(){
         $classesRecord = ClassesRecord::all();
         return view('posts.classes', compact('classesRecord'));
-      
     }
 
     public function store(Request $request){

@@ -34,7 +34,6 @@ class LoginController extends Controller
         $studentRecord = new StudentRecord;
         $user = new User;
       
-
         $exist1 = $user->where('email', $data['email'])->first();
         
         if (!empty($exist1) && Hash::check($data['password'], $exist1->password)) {
@@ -45,8 +44,7 @@ class LoginController extends Controller
         
             
         $exist2 = $studentRecord->where('email', $data['email'])->where('stud_id',$data['password'])->first();
-      
-        if($exist2){   
+        if($exist2 && $data['password'] == $exist2->stud_id){   
             //authenticates current login $exist2 as students
             auth()->guard('students')->login($exist2);
             
@@ -55,6 +53,8 @@ class LoginController extends Controller
         }
        
         flash('User does not exist.')->error();
+
+
         return redirect()->route('login');
     }
 

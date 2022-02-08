@@ -105,11 +105,11 @@ Route::group(['middleware' => ['auth','web']], function () {
     Route::get('teacher/subject/students/{studentId}/class/{classId}', [TeacherController::class, 'studentGrade'])->name('students.subject');
 
 });
-//OUT OF REACH
+
 Route::group(['middleware' => ['auth:students']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/rank', [RankingController::class, 'index'])->name('rank');
     Route::get('/classes', [ClassesController::class, 'index'])->name('classes');
+    Route::get('/grades/{classId}', [ClassesController::class, 'student_grades'])->name('student.auth.grades');
 });
 
 
