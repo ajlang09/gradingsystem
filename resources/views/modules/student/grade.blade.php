@@ -4,7 +4,7 @@
 <div class="student-profile components">
     <div class="row mt-4">
         <div class="col-12">
-            <a href="{{route('classes.classview',$class->class_id)}}" class="btn btn-danger">Back</a>
+            <a href="{{route('dashboard',$class->class_id)}}" class="btn btn-danger">Back</a>
             <a href="javascript:void(0)" onclick="screenCap()" class="btn btn-primary float-right">Capture</a>
         </div>
     </div>
@@ -51,7 +51,7 @@
 function screenCap() {
     // const screenshotTarget = document.body;
     const screenshotTarget = document.getElementById('student-profile');
-    
+
 
     html2canvas(screenshotTarget).then((canvas) => {
         const base64image = canvas.toDataURL("image/png");
@@ -60,7 +60,7 @@ function screenCap() {
         a.download = "Image.png"; //File name Here
         a.click(); //Downloaded file
         // document.getElementById('screen-cap').src = base64image
-    });   
+    });
 }
 
 </script>

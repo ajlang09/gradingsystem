@@ -75,14 +75,14 @@ class RankingController extends Controller
         foreach ($grades as $grade) {
             if (!isset($group[$grade->student_id])) {
                 $group[$grade->student_id]['student'] = $grade->student()->first();
-            }            
+            }
 
             $group[$grade->student_id]['grades'][] = $grade;
         }
 
         foreach ($group as $key => $groupData) {
             $class = [];
-            
+
             foreach ($groupData['grades'] as $grade) {
                 $class[$grade->class_id][] = $grade;
             }
@@ -94,7 +94,7 @@ class RankingController extends Controller
 
         foreach ($group as $groupGrades) {
             $studentModel = $groupGrades['student'];
-            
+
             // term count per year
             // if (2 != sizeof($groupGrades['grades'])) {
             //     continue;
@@ -119,16 +119,16 @@ class RankingController extends Controller
             }
 
             $studentYearGwa[] = [
-                'student' => $studentModel, 
+                'student' => $studentModel,
                 'gwa' => $gwa,
                 'rank' => $rank,
             ];
         }
-        
+
         usort($studentYearGwa, function($a, $b) {
             return $b['gwa'] <=> $a['gwa'];
         });
-        
+
         return response()->json($studentYearGwa);
     }
 
