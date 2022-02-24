@@ -26,7 +26,7 @@
                     <div class="col-12" align="center">
                       <img src="{{url('images/PSAU_Logo.png')}}" class="text-center" style="width:150px;height:150px;">
                       <h5 class="card-title text-center">Log in</h5>
-                      <h5 class="card-title text-center">Grading System for COECs</h5>
+                      <h5 class="card-title text-center">WEB-BASED RANKING SYSTEM USING E-CLASS RECORD FOR DCSA</h5>
                     </div>
 
                   </div>
@@ -36,13 +36,13 @@
                         <div class="col-sm-12 mb-1">
                             <label class="mb-1" for="email">Email</label>
                             <br>
-                            <input type="text" name="email" id="email" placeholder="" 
+                            <input type="text" name="email" id="email" placeholder=""
                             class="form-control @error('email') border-red-500 @enderror" value="{{old('email')}}">
                         </div>
 
                         <div class="col-sm-12 mb-1">
                             <label class="mb-1" for="password">Password</label>
-                            <input type="password" name="password" id="password" placeholder="" 
+                            <input type="password" name="password" id="password" placeholder=""
                             class="form-control @error('password') border-red-500 @enderror" value="">
                         </div>
 

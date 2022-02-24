@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="subject">
+<a href="javascript:void(0)" onclick="screenCap()" class="btn btn-primary float-right">Capture</a>
+<div class="subject" id="subject-list">
+
     <div class="row mt-4">
         <div class="col-6">
             <h4>{{$subject->name}}</h4>
@@ -45,5 +47,20 @@ $(document).ready( function () {
          "aaSorting": [],
     })
 });
+
+function screenCap() {
+    // const screenshotTarget = document.body;
+    const screenshotTarget = document.getElementById('subject-list');
+
+
+    html2canvas(screenshotTarget).then((canvas) => {
+        const base64image = canvas.toDataURL("image/png");
+         var a = document.createElement("a"); //Create <a>
+        a.href = base64image; //Image Base64 Goes here
+        a.download = "Image.png"; //File name Here
+        a.click(); //Downloaded file
+        // document.getElementById('screen-cap').src = base64image
+    });
+}
 </script>
 @endsection

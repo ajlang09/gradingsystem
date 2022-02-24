@@ -11,13 +11,13 @@ class LogoutController extends Controller
     public function store(){
 
         $student = auth()->guard('students')->user();
-        
+
         if ($student) {
             auth()->guard('students')->logout();
         }
 
         Auth::logout();
-        
+
         return redirect()->route('login');
     }
 }

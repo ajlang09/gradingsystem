@@ -59,7 +59,7 @@ function screenCap() {
         a.download = "Image.png"; //File name Here
         a.click(); //Downloaded file
         // document.getElementById('screen-cap').src = base64image
-    });   
+    });
 }
 
 </script>

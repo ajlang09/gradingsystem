@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Grading System</title>
+    <title>WEB-BASED RANKING SYSTEM USING E-CLASS RECORD FOR DCSA</title>
     <meta name="csrf_token" content="{{ csrf_token() }}">
     <meta name="url" content="{{url('/')}}">
 
     @if(auth()->user() &&  'users' == auth()->user()->getTable() && 'teacher' == auth()->user()->roles()->first()->name)
         <meta name="teacher_id" content="{{auth()->id()}}">
     @endif
-  
+
     <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/data_table.css') }}">
     @yield('style')
@@ -75,16 +75,16 @@
             </div>
         </nav>
         @include('flash::message')
-        
+
         @yield('content')
-    </div>  
+    </div>
     <script type="text/javascript">
         window.apiUrl = '{{url('/')}}'
     </script>
     <script src="{{ asset(mix('/js/app.js')) }}"></script>
     <script src="{{ asset('js/data_table.js') }}"></script>
     <script src="{{ asset('js/html2canvas.js') }}"></script>
-    
+
     @yield('script')
 
     @include('flash::message')

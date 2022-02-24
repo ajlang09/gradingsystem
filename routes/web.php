@@ -10,7 +10,7 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TeacherController;
 
-use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 
@@ -32,7 +32,7 @@ Route::get('/', function() {
     }
 
     $role = auth()->user()->roles()->first()->name;
-    
+
     if ('teacher' == $role) {
         return redirect()->route('teacher.rank');
     }
@@ -55,27 +55,27 @@ Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
 Route::group(['middleware' => ['auth','web']], function () {
     Route::get('/posts', [PostController::class, 'index'])->name('posts');
     Route::post('/posts', [PostController::class, 'store']);
-    
+
     Route::get('search/student', [StudentController::class, 'search']);
     Route::post('/student/grade', [StudentController::class, 'studentGrade'])->name('student.grade');
-    
+
     Route::get('/student', [StudentController::class, 'index'])->name('student');
     Route::post('/student', [StudentController::class, 'store'])->name('student.store');
     Route::get('/student/add', [StudentController::class, 'add'])->name('student.add');
     Route::get('/student/{id}/edit', [StudentController::class, 'edit'])->name('student.edit');
     Route::post('/student/update', [StudentController::class, 'update'])->name('student.update');
     Route::post('/student/delete', [StudentController::class, 'delete'])->name('student.delete');
-    
+
     Route::post('/remove/student', [ClassesController::class, 'removeStudent'])->name('remove.student');
     Route::post('/remove/subject', [ClassesController::class, 'removeSubject'])->name('remove.subject');
 
     Route::get('/student/{classId}/{studentId}/grades', [StudentController::class, 'grades'])->name('student.grades');
-   
-    
+
+
     Route::get('/rank/admin', [RankingController::class, 'index'])->name('rank.admin');
 
     Route::get('/classes', [ClassesController::class, 'index'])->name('classes');
-    
+
 
     Route::post('/classes', [RankingController::class, 'store'])->name('rank.store');
     Route::get('/classes/admin', [ClassesController::class, 'index'])->name('classes.admin');
@@ -86,7 +86,7 @@ Route::group(['middleware' => ['auth','web']], function () {
     Route::post('/classes/delete', [ClassesController::class, 'delete'])->name('classes.delete');
 
     Route::get('/classes/{id}/classview', [ClassesController::class, 'classview'])->name('classes.classview');
-    
+
     Route::resource('subject',SubjectController::class);
     Route::resource('users', UserController::class);
 
@@ -117,7 +117,7 @@ Route::group(['middleware' => ['auth:students']], function () {
 //logoutcontroller
 //logincontroller
 
-//CREATE RANKING AND CLASS FOLLOW STUDENT TABLE AND CLASS 
+//CREATE RANKING AND CLASS FOLLOW STUDENT TABLE AND CLASS
 
 //get show
 //post input add

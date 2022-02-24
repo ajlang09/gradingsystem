@@ -12,7 +12,7 @@ class StudentController extends Controller
     {
         //call out data from records
         $studentRecords = StudentRecord::all();
-  
+
         //compact - to use data to external page
         return view('posts.student', compact('studentRecords'));
     }
@@ -24,21 +24,26 @@ class StudentController extends Controller
 
         $data = $request->all();
         $studentRecord = new StudentRecord;
-           
+
             //multiple wheres possible
-            //first executes query/command 
+            //first executes query/command
             //(get) command used to get multiple data at once
-            $exist = $studentRecord->where('email', $data['email'])->where('stud_id',$data['stud_id'])->first();
+            $exist = $studentRecord->where('email', $data['email'])->first();
             if($exist){
-                flash('Sorry! The data inputted already exists')->error();
+                flash('Sorry! The email inputted already exists')->error();
                 return redirect()->route('student');
             }
+             $exist2 = $studentRecord->where('stud_id',$data['stud_id'])->first();
+             if ($exist2) {
+                 flash('Sorry! The student ID inputted already exists')->error();
+                return redirect()->route('student');
+             }
 
             flash('You have successfully added a student!')->success();
             $studentRecord->create($data);
-            
+
             return redirect()->route('student');
-   
+
     }
 
     public function add()
@@ -58,17 +63,34 @@ class StudentController extends Controller
 
     public function update(Request $request)
     {
+        $studentRecord = new StudentRecord;
         $data = $request->all();
         $dataModel = StudentRecord::find($data['id']);
         if (empty($dataModel)) {
             return redirect()->route('student');
         }
+        //FIX FOR EDIT IF WANTED
+         /*$exist = $studentRecord->where('email', $data['email'])->first();
+            if($exist){
+
+                flash('Sorry! The email inputted already exists')->error();
+                return redirect()->route('student');
+            }
+         $exist2 = $studentRecord->where('stud_id',$data['stud_id'])->first();
+             if ($exist2) {
+
+                 flash('Sorry! The student ID inputted already exists')->error();
+                return redirect()->route('student');
+             }
+             */
+
+
         $dataModel->fill($data);
         $dataModel->save();
         return redirect()->route('student');
     }
 
-    
+
     public function delete(Request $request){
         $data = $request->all();
         $dataModel = StudentRecord::find($data['id']);
@@ -76,11 +98,11 @@ class StudentController extends Controller
             return redirect()->route('student');
         }
         $dataModel->delete();
-        
+
         return redirect()->route('student');
     }
 
-    public function search(Request $request) 
+    public function search(Request $request)
     {
         $data = $request->all();
 
@@ -136,7 +158,7 @@ class StudentController extends Controller
     public function studentGrade(Request $request)
     {
         $data = $request->all();
-        
+
         $class = ClassesRecord::find($data['class_id']);
         $term  = $data['term'];
         $grades = $class->rawGradesFor($data['student_id'], $term, $data['subject_id']);
@@ -174,7 +196,7 @@ class StudentController extends Controller
         foreach ($breakDown as $type => $percentage) {
             $totalGrade += $data[$type] * $percentage;
         }
-        
+
         $gradeData = [
             'class_id'   => $classId,
             'student_id' => $studentId,

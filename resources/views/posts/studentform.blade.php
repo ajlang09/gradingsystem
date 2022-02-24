@@ -35,14 +35,14 @@
                 </div>
 
                   <div class="col-sm-12 mb-1">
-                      <label class="mb-1" for="email">Student ID</label>
+                      <label class="mb-1" for="stud_id">Student ID</label>
                       <br>
-                      <input type="stud_id" name="stud_id" id="stud_id" placeholder=""  required
+                      <input type="stud_id" name="stud_id" id="stud_id" placeholder=""  maxlength="10"  required
                       class="form-control">
                   </div>
 
                   <div class="col-sm-12 mb-1">
-                      <label class="mb-1" for="password">Email</label>
+                      <label class="mb-1" for="email">Email</label>
                       <input type="email" name="email" id="email" placeholder=""  required
                       class="form-control">
                   </div>
