@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="components">
+<form action="{{ route('classes.update') }}" method="post">
+    <input type="hidden" name="redirect" value="{{request()->url()}}">
+    @csrf
     <div class="row mt-3">
         <div class="col-12">
             <h5>ENROLL FORM</h5>
@@ -16,6 +19,8 @@
             <subject-list />
         </div>
     </div>
+    <input type="submit" id="update-btn-subject" class="d-none">
+</form>
 </div>
 @endsection
 
