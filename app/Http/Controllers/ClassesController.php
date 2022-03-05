@@ -77,6 +77,11 @@ class ClassesController extends Controller
         return view('posts.enroll', compact('data'));
     }
 
+    public function enroll()
+    {
+        return view('modules.class.enroll');
+    }
+
     public function classview($classId)
     {
         $class    = ClassesRecord::find($classId);

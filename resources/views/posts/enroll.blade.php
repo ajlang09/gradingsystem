@@ -6,10 +6,10 @@
     <form action="{{ route('classes.update') }}" method="post">
         @csrf
         <div class="row">
-            <div class="col-sm-6 col-12">
+            <div class="offset-sm-3 col-sm-6 col-12">
                 <div class="card mt-5">
                     <div class="card-body">
-                        <h5 class="card-title">ENROLLING FORM</h5>
+                        <h5 class="card-title">CLASS EDIT FORM</h5>
                         <hr>
                         <div class="row">
                             <input type="hidden" name="class_id" value="{{$data->class_id}}" id="class_id">
@@ -39,12 +39,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-12">
+            {{-- <div class="col-sm-6 col-12">
                 <student-list />
             </div>
             <div class="col-sm-6 col-12">
                 <subject-list />
-            </div>
+            </div> --}}
         </div>
 
     </form>

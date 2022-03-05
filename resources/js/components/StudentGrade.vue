@@ -62,7 +62,7 @@
 import GradeModal from './GradeModal'
 
 export default {
-  props:['subjects','mappedgrades', 'mode','studentid', 'classid'],
+  props:['subjects','mappedgrades', 'mode','studentid', 'classid','role'],
   data() {
     return {
       gradeSubjects:[],
@@ -82,9 +82,9 @@ export default {
     //   this.generateSubjectModel()
     // }
 
-    console.log(this.mode)
 
     this.parseDatas()
+
 
     if ('teacher'== this.mode) {
       this.teacherId = document.querySelector('meta[name="teacher_id"]').content
@@ -137,7 +137,7 @@ export default {
       this.gwa = (summation / this.gradeSubjects.length).toFixed(2)
     },
     openGradeModal(subject, term) {
-      if ('student' == this.mode) {
+      if ('student' == this.mode || 'admin' == this.mode) {
         return
       }
 

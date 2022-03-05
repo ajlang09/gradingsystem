@@ -184,6 +184,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classes', 'subjects'],
   data: function data() {
@@ -191,13 +205,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       filter: {
         year: this.year(new Date()),
         type: '',
-        semester: ''
+        semester: '',
+        rank: ''
       },
       yearOption: [],
       rankings: [],
       semesterClasses: {},
-      showGwa: true
+      showGwa: true,
+      emptyRank: false
     };
+  },
+  watch: {
+    "filter.rank": function filterRank() {
+      if (!this.filter.rank) {
+        return;
+      }
+
+      var emptyRank = true;
+      var filterRank = this.filter.rank;
+
+      _.forOwn(this.rankings, function (ranking) {
+        if (ranking.rankSlug == filterRank) {
+          emptyRank = false;
+        }
+      });
+
+      this.emptyRank = emptyRank;
+    }
   },
   created: function created() {
     var _this = this;
@@ -274,7 +308,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 response = _context2.sent;
-                _this2.rankings = response.data.original;
+                _this2.rankings = response.data;
                 _context2.next = 10;
                 break;
 
@@ -368,7 +402,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['subjects', 'mappedgrades', 'mode', 'studentid', 'classid'],
+  props: ['subjects', 'mappedgrades', 'mode', 'studentid', 'classid', 'role'],
   data: function data() {
     return {
       gradeSubjects: [],
@@ -387,7 +421,6 @@ __webpack_require__.r(__webpack_exports__);
     // if (!this.mappedgrades.grades.length) {
     //   this.generateSubjectModel()
     // }
-    console.log(this.mode);
     this.parseDatas();
 
     if ('teacher' == this.mode) {
@@ -436,7 +469,7 @@ __webpack_require__.r(__webpack_exports__);
       this.gwa = (summation / this.gradeSubjects.length).toFixed(2);
     },
     openGradeModal: function openGradeModal(subject, term) {
-      if ('student' == this.mode) {
+      if ('student' == this.mode || 'admin' == this.mode) {
         return;
       }
 
@@ -3057,7 +3090,7 @@ var render = function () {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row mt-3" }, [
-      _c("div", { staticClass: "col-12 col-md-4" }, [
+      _c("div", { staticClass: "col-12 col-md-3" }, [
         _c(
           "select",
           {
@@ -3100,7 +3133,7 @@ var render = function () {
         ),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-12 col-md-4" }, [
+      _c("div", { staticClass: "col-12 col-md-3" }, [
         _c(
           "select",
           {
@@ -3148,7 +3181,7 @@ var render = function () {
         ),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-12 col-md-4" }, [
+      _c("div", { staticClass: "col-12 col-md-3" }, [
         _c(
           "select",
           {
@@ -3205,6 +3238,54 @@ var render = function () {
           2
         ),
       ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-12 col-md-3" }, [
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.filter.rank,
+                expression: "filter.rank",
+              },
+            ],
+            staticClass: "form-control",
+            on: {
+              change: [
+                function ($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function (o) {
+                      return o.selected
+                    })
+                    .map(function (o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.filter,
+                    "rank",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                },
+                _vm.fetchRanking,
+              ],
+            },
+          },
+          [
+            _c("option", { attrs: { value: "" } }, [_vm._v("Select rank")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "deans-lister" } }, [
+              _vm._v("Dean's Lister"),
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "presidents-lister" } }, [
+              _vm._v("Presidents's Lister"),
+            ]),
+          ]
+        ),
+      ]),
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
@@ -3231,29 +3312,35 @@ var render = function () {
           _c(
             "tbody",
             [
-              !_vm.rankings.length ? [_vm._m(1)] : _vm._e(),
+              !_vm.filter.rank && !_vm.rankings.length ? [_vm._m(1)] : _vm._e(),
+              _vm._v(" "),
+              _vm.filter.rank && _vm.emptyRank ? [_vm._m(2)] : _vm._e(),
               _vm._v(" "),
               _vm._l(_vm.rankings, function (ranking, rank) {
                 return [
-                  _c(
-                    "tr",
-                    [
-                      _c("td", [_c("b", [_vm._v(_vm._s(rank + 1))])]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(ranking.student.name))]),
-                      _vm._v(" "),
-                      _vm.showGwa
-                        ? [
-                            _c("td", { staticClass: "text-center" }, [
-                              _vm._v(_vm._s(ranking.gwa)),
-                            ]),
-                          ]
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(ranking.rank))]),
-                    ],
-                    2
-                  ),
+                  !_vm.filter.rank || _vm.filter.rank == ranking.rankSlug
+                    ? [
+                        _c(
+                          "tr",
+                          [
+                            _c("td", [_c("b", [_vm._v(_vm._s(rank + 1))])]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(ranking.student.name))]),
+                            _vm._v(" "),
+                            _vm.showGwa
+                              ? [
+                                  _c("td", { staticClass: "text-center" }, [
+                                    _vm._v(_vm._s(ranking.gwa)),
+                                  ]),
+                                ]
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(ranking.rank))]),
+                          ],
+                          2
+                        ),
+                      ]
+                    : _vm._e(),
                 ]
               }),
             ],
@@ -3272,6 +3359,16 @@ var staticRenderFns = [
     return _c("div", { staticClass: "row  mt-4" }, [
       _c("div", { staticClass: "col-12" }, [
         _c("h3", [_vm._v("Ranking Tables")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { attrs: { align: "center", colspan: "10" } }, [
+        _vm._v("No rankings for this year"),
       ]),
     ])
   },

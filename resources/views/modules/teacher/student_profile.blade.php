@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="student-profile components">
     <div class="row mt-4">
         <div class="col-12">
@@ -37,7 +38,7 @@
         <hr>
         <div class="row">
             <div class="col-12">
-                <student-grade studentid="{{$student->id}}" classid="{{$class->class_id}}" :subjects="{{json_encode($subjects)}}" :mappedgrades="{{json_encode($grades)}}" />
+                <student-grade role="{{auth()->user()->roles()->first()->name}}" studentid="{{$student->id}}" classid="{{$class->class_id}}" :subjects="{{json_encode($subjects)}}" :mappedgrades="{{json_encode($grades)}}" />
             </div>
         </div>
     </div>

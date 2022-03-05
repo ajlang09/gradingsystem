@@ -58,6 +58,7 @@ class RankingController extends Controller
         $labels = [
             [
                 'rank' => "Dean's Lister",
+                'slug' => "deans-lister",
                 'grade' => [
                     'lower' => 92,
                     'high' => 94.99,
@@ -65,6 +66,7 @@ class RankingController extends Controller
             ],
             [
                 'rank' => "Presidents's Lister",
+                'slug' => "presidents-lister",
                 'grade' => [
                     'lower' => 95,
                     'high' => 100,
@@ -103,6 +105,7 @@ class RankingController extends Controller
             $gwa = $this->getTotalGwa($groupGrades['grades']);
 
             $rank = '';
+            $rankSlug = '';
 
             foreach ($labels as $label) {
                 $grade = $label['grade'];
@@ -111,6 +114,7 @@ class RankingController extends Controller
                 }
                 if ($grade['lower'] <= $gwa && $gwa <= $grade['high']) {
                     $rank = $label['rank'];
+                    $rankSlug = $label['slug'];
                 }
             }
 
@@ -122,6 +126,7 @@ class RankingController extends Controller
                 'student' => $studentModel,
                 'gwa' => $gwa,
                 'rank' => $rank,
+                'rankSlug' => $rankSlug,
             ];
         }
 
@@ -129,7 +134,7 @@ class RankingController extends Controller
             return $b['gwa'] <=> $a['gwa'];
         });
 
-        return response()->json($studentYearGwa);
+        return $studentYearGwa;
     }
 
     protected function getTotalGwa($grades)

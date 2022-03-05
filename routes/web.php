@@ -82,6 +82,7 @@ Route::group(['middleware' => ['auth','web']], function () {
     Route::get('/classes/admin/add', [ClassesController::class, 'add'])->name('classes.add');
     Route::post('/classes', [ClassesController::class, 'store'])->name('classes.store');
     Route::get('/classes/{id}/edit', [ClassesController::class, 'edit'])->name('classes.edit');
+    Route::get('/classes/{id}/enroll', [ClassesController::class, 'enroll'])->name('classes.enroll');
     Route::post('/classes/update', [ClassesController::class, 'update'])->name('classes.update');
     Route::post('/classes/delete', [ClassesController::class, 'delete'])->name('classes.delete');
 

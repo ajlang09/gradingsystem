@@ -52,14 +52,15 @@
                         {{$ClassesRecords->students()->count()}}
                     </td>
 
-                    <td>
-                        <a class="btn btn-warning" href="{{route('classes.edit',$ClassesRecords->class_id)}}">Edit/Enroll</a>
-                        <a class="btn btn-primary" href="{{route('classes.classview',$ClassesRecords->class_id)}}">See Details</a>
+                    <td class="d-flex">
+                        <a class="btn btn-warning m-1" href="{{route('classes.edit',$ClassesRecords->class_id)}}">Edit</a>
+                        <a class="btn btn-warning m-1" href="{{route('classes.enroll',$ClassesRecords->class_id)}}">Enroll</a>
+                        <a class="btn btn-primary m-1" href="{{route('classes.classview',$ClassesRecords->class_id)}}">See Details</a>
 
                         <form method="post" action="{{route('classes.delete')}}">
                             @csrf
                             <input type="hidden" name="id" value="{{$ClassesRecords->class_id}}">
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger m-1">Delete</button>
                         </form>
                     </td>
                 </tr>    
