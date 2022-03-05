@@ -5,6 +5,7 @@
     <div class="row mt-3">
         <div class="col-12">
             <h5>ENROLL FORM</h5>
+            <input type="hidden" name="class_id" value="{{$data->class_id}}" id="class_id">
         </div>
     </div>
     <div class="row">

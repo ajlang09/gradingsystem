@@ -77,9 +77,16 @@ class ClassesController extends Controller
         return view('posts.enroll', compact('data'));
     }
 
-    public function enroll()
+    public function enroll($class_id)
     {
-        return view('modules.class.enroll');
+        $classesRecord = new ClassesRecord;
+        $data = $classesRecord->find($class_id);
+    
+        if (empty($data)) {
+            return redirect()->route('classes.admin');
+        }
+
+        return view('modules.class.enroll', compact('data'));
     }
 
     public function classview($classId)
