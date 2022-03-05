@@ -96,12 +96,16 @@ Route::group(['middleware' => ['auth','web']], function () {
     Route::get('get/ranking/table', [RankingController::class, 'ranking']);
 
 
+    Route::post('teacher/subjects/configuration', [SubjectController::class, 'saveConfig'])->name('subjects.save.config');
+
+
     Route::get('teacher/subjects', [TeacherController::class, 'subject'])->name('teacher.subjects');
     Route::get('teacher/rank', [RankingController::class, 'index'])->name('teacher.rank');
     Route::get('teacher/class', [TeacherController::class, 'class'])->name('teacher.class');
     Route::get('teacher/{id}/subjects', [TeacherController::class, 'getSubjects']);
     Route::get('teacher/{id}/class', [TeacherController::class, 'getClass']);
     Route::get('teacher/{subjectId}/{teacherId}/subject/students', [TeacherController::class, 'subjectStudents']);
+    Route::get('teacher/{subjectId}/{teacherId}/subject/config', [TeacherController::class, 'subjectConfig']);
     Route::get('teacher/{classId}/{teacherId}/class/students', [TeacherController::class, 'classStudents']);
     Route::get('teacher/subject/students/{studentId}/class/{classId}', [TeacherController::class, 'studentGrade'])->name('students.subject');
 

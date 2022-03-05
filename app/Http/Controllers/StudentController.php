@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\StudentRecord;
+use App\Models\Subject;
 use App\Models\ClassesRecord;
 use Illuminate\Http\Request;
 
@@ -169,12 +170,23 @@ class StudentController extends Controller
 
         $classId   = $data['class_id'];
         $studentId = $data['student_id'];
+        $subjectId = $data['subject_id'];
 
-        $breakDown = [
-            'class_standing' => 0.6,
-            'major_exams' => 0.3,
-            'studentship' => 0.1,
-        ];
+        $subject = Subject::find($subjectId);
+
+        $getConfigurations = $subject->getConfiguration();
+
+        $breakDown = [];
+
+        foreach ($getConfigurations as $configuration) {
+            $breakDown[$configuration['slug']] = $configuration['percentage'];
+        }
+        
+        // $breakDown = [
+        //     'class_standing' => 0.6,
+        //     'major_exams' => 0.3,
+        //     'studentship' => 0.1,
+        // ];
 
         foreach ($breakDown as $type => $percentage) {
             $grade = $data[$type];

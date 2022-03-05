@@ -27,7 +27,10 @@
             <tr>
               <td><b>{{subject.subjectName}}</b></td>
               <td class="text-center">{{subject.studentCount}}</td>
-              <td class="text-center"><a :href="`${teacherUrl}/${subject.subjectId}/${teacherId}/subject/students`" class="btn btn-warning">View Students</a></td>
+              <td class="text-center">
+                <a :href="`${teacherUrl}/${subject.subjectId}/${teacherId}/subject/students`" class="btn btn-warning">View Students</a>
+                <a :href="`${teacherUrl}/${subject.subjectId}/${teacherId}/subject/config`" class="btn btn-primary">Subject Breakdown</a>
+              </td>
             </tr>
           </template>
         </tbody>

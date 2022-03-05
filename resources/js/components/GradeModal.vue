@@ -21,14 +21,26 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th>Class Standing</th>
+                  <template v-for="(subject, field) in detail.subject">
+                    <template v-if="!inArray(field, ignoreConstants)">
+                      <th>{{ capitalize(field.replaceAll('_',' ')) }}</th>
+                    </template>
+                  </template>
+                  <!-- <th>Class Standing</th>
                   <th>Major Exams</th>
-                  <th>Studentship</th>
+                  <th>Studentship</th> -->
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>
+                  <template v-for="(subject, field) in detail.subject">
+                    <template v-if="!inArray(field, ignoreConstants)">
+                      <td>
+                        <input type="text" class="form-control  number-only" :name="field" :value="subject">
+                      </td>
+                    </template>
+                  </template>
+                  <!-- <td>
                     <input type="text" class="form-control  number-only" name="class_standing" :value="detail.subject.class_standing">
                   </td>
                   <td>
@@ -36,7 +48,7 @@
                   </td>
                   <td>
                     <input type="text" class="form-control number-only" name="studentship" :value="detail.subject.studentship">
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
             </table>
@@ -59,13 +71,29 @@ export default {
   data() {
     return {
       csrfToken:window.csrfToken,
-      urlSaveGrade:window.apiUrl+'/student/grade'
+      urlSaveGrade:window.apiUrl+'/student/grade',
+      ignoreConstants:[
+        'midterm',
+        'finals',
+        'subjectId',
+        'userId',
+        'subject',
+      ],
     }
   },
   created() {
   },
   mounted() {
-
   },
+  methods: {
+    inArray(needle, haystack) {
+      return _.includes(haystack, needle)
+    },
+    capitalize(value) {
+      if (!value) return ''
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
+    }
+  }
 }
 </script>

@@ -145,7 +145,7 @@ export default {
         term:term, 
         subject:subject, 
       }
-
+      console.log(this.gradeModal)
       document.getElementById('btn-grade-modal').click()
     }
   }

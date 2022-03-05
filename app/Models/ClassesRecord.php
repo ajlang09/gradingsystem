@@ -127,7 +127,6 @@ class ClassesRecord extends Authenticatable
         foreach ($terms as $term) {
             $initialGroup = [];
             $rawGrades = $this->rawGradesFor($studentId, $term);
-
             foreach ($rawGrades as $rawGrade) {
                 if (!in_array($rawGrade->subject_id, $allSubjectId)) {
                     continue;
@@ -140,27 +139,59 @@ class ClassesRecord extends Authenticatable
 
                 if (!isset($initialGroup[$rawGrade->subject_id])) {
                     $subject = $rawGrade->subject()->first();
+
                     $initialGroup[$rawGrade->subject_id] = [
                         'subject'   => $subject->name,
                         'subjectId' => $subject->id, 
                         'userId'    => $subject->user_id, 
                     ];
                 }
-                $initialGroup[$rawGrade->subject_id][$rawGrade->type] =  $rawGrade->grade;
+                $subject = $rawGrade->subject()->first();
+                $subjectConfigurations = $subject->getConfiguration();
+
+                $type = '';
+                foreach ($subjectConfigurations as $sConfiguration) {
+                    if ($rawGrade->type == $sConfiguration['slug']) {
+                        $type = $sConfiguration['slug'];
+                        break;
+                    }
+                }
+
+                if (empty($type)) {
+                    $type =  'midterm' == $rawGrade->type || 'finals' == $rawGrade->type ? $rawGrade->type : ''; 
+                }
+
+                if (empty($type)) {
+                    continue;
+                }
+
+                $initialGroup[$rawGrade->subject_id][$type] =  $rawGrade->grade;
             }
 
             foreach ($subjects as $rawSubject) {
+
                 if (!isset($initialGroup[$rawSubject->id])) {
                     $initialGroup[$rawSubject->id] = [
                         'subject'   => $rawSubject->name,
                         'subjectId' => $rawSubject->id, 
                         'userId'    => $rawSubject->user_id, 
-                        'class_standing' => 0,
-                        'major_exams'    => 0,
-                        'studentship'    => 0,
                     ];
 
+                    $subjectConfigurations = $rawSubject->getConfiguration();
+
+                    foreach ($subjectConfigurations as $subjectConfiguration) {
+                        $initialGroup[$rawSubject->id][$subjectConfiguration['slug']] = 0;
+                    }
+
                     $initialGroup[$rawSubject->id][$term] = 0;
+                }
+
+                $subjectConfigurations = $rawSubject->getConfiguration();
+
+                foreach ($subjectConfigurations as $subjectConfiguration) {
+                    if (!isset($initialGroup[$rawSubject->id][$subjectConfiguration['slug']])) {
+                        $initialGroup[$rawSubject->id][$subjectConfiguration['slug']] = 0;
+                    }
                 }
             }
 
@@ -169,7 +200,7 @@ class ClassesRecord extends Authenticatable
                     $initialGroup[$key][$term] = 0;
                 }
             }
-            
+
             $mappedGrade = [];
 
             foreach ($initialGroup as $value) {
@@ -180,7 +211,7 @@ class ClassesRecord extends Authenticatable
         }
 
         $totalAverage = 0;
-            
+
         foreach ($termGrade['midterm'] as $key => $value) {
             $midterm = $termGrade['midterm'][$key]['midterm'];
             $finals = $termGrade['finals'][$key]['finals'];

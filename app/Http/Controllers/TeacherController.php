@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Subject;
 
 class TeacherController extends Controller
 {
@@ -15,6 +16,15 @@ class TeacherController extends Controller
     {
         return view('modules.teacher.class');
     } 
+
+    public function subjectConfig($subjectId, $teacherId)
+    {
+        $subject = Subject::findOrFail($subjectId); 
+
+        $configs = $subject->getConfiguration();
+
+        return view('modules.subject.config', compact('configs','subjectId'));
+    }
 
     public function getSubjects($teacherId, Request $request)
     {

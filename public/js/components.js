@@ -78,16 +78,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['detail', 'studentid', 'classid'],
   data: function data() {
     return {
       csrfToken: window.csrfToken,
-      urlSaveGrade: window.apiUrl + '/student/grade'
+      urlSaveGrade: window.apiUrl + '/student/grade',
+      ignoreConstants: ['midterm', 'finals', 'subjectId', 'userId', 'subject']
     };
   },
   created: function created() {},
-  mounted: function mounted() {}
+  mounted: function mounted() {},
+  methods: {
+    inArray: function inArray(needle, haystack) {
+      return _.includes(haystack, needle);
+    },
+    capitalize: function capitalize(value) {
+      if (!value) return '';
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    }
+  }
 });
 
 /***/ }),
@@ -477,6 +500,7 @@ __webpack_require__.r(__webpack_exports__);
         term: term,
         subject: subject
       };
+      console.log(this.gradeModal);
       document.getElementById('btn-grade-modal').click();
     }
   }
@@ -904,6 +928,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
 //
 //
 //
@@ -2959,47 +2986,71 @@ var render = function () {
                       : _vm._e(),
                     _vm._v(" "),
                     _c("table", { staticClass: "table" }, [
-                      _vm._m(0),
+                      _c("thead", [
+                        _c(
+                          "tr",
+                          [
+                            _vm._l(
+                              _vm.detail.subject,
+                              function (subject, field) {
+                                return [
+                                  !_vm.inArray(field, _vm.ignoreConstants)
+                                    ? [
+                                        _c("th", [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.capitalize(
+                                                field.replaceAll("_", " ")
+                                              )
+                                            )
+                                          ),
+                                        ]),
+                                      ]
+                                    : _vm._e(),
+                                ]
+                              }
+                            ),
+                          ],
+                          2
+                        ),
+                      ]),
                       _vm._v(" "),
                       _c("tbody", [
-                        _c("tr", [
-                          _c("td", [
-                            _c("input", {
-                              staticClass: "form-control  number-only",
-                              attrs: { type: "text", name: "class_standing" },
-                              domProps: {
-                                value: _vm.detail.subject.class_standing,
-                              },
-                            }),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c("input", {
-                              staticClass: "form-control  number-only",
-                              attrs: { type: "text", name: "major_exams" },
-                              domProps: {
-                                value: _vm.detail.subject.major_exams,
-                              },
-                            }),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c("input", {
-                              staticClass: "form-control number-only",
-                              attrs: { type: "text", name: "studentship" },
-                              domProps: {
-                                value: _vm.detail.subject.studentship,
-                              },
-                            }),
-                          ]),
-                        ]),
+                        _c(
+                          "tr",
+                          [
+                            _vm._l(
+                              _vm.detail.subject,
+                              function (subject, field) {
+                                return [
+                                  !_vm.inArray(field, _vm.ignoreConstants)
+                                    ? [
+                                        _c("td", [
+                                          _c("input", {
+                                            staticClass:
+                                              "form-control  number-only",
+                                            attrs: {
+                                              type: "text",
+                                              name: field,
+                                            },
+                                            domProps: { value: subject },
+                                          }),
+                                        ]),
+                                      ]
+                                    : _vm._e(),
+                                ]
+                              }
+                            ),
+                          ],
+                          2
+                        ),
                       ]),
                     ]),
                   ],
                   2
                 ),
                 _vm._v(" "),
-                _vm._m(1),
+                _vm._m(0),
               ]
             ),
           ]),
@@ -3018,20 +3069,6 @@ var render = function () {
   ])
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Class Standing")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Major Exams")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Studentship")]),
-      ]),
-    ])
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -4077,6 +4114,23 @@ var render = function () {
                           },
                         },
                         [_vm._v("View Students")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: {
+                            href:
+                              _vm.teacherUrl +
+                              "/" +
+                              subject.subjectId +
+                              "/" +
+                              _vm.teacherId +
+                              "/subject/config",
+                          },
+                        },
+                        [_vm._v("Subject Breakdown")]
                       ),
                     ]),
                   ]),

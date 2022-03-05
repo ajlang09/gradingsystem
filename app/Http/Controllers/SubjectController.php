@@ -112,5 +112,56 @@ class SubjectController extends Controller
 
     }
 
+    public function saveConfig(Request $request)
+    {
+        $data = $request->all();
+        $subject_id = $data['subject_id'];
+        $subject = Subject::find($subject_id);
+
+
+        if ('save' != $data['action']) {
+            $name = $data['action'];
+            $keyName = array_search($name, $data['name']);
+            if (false !== $keyName) {
+                $data['name'][$keyName] = null;
+            }
+        }
+
+
+        $totalPercentage = 0;
+        foreach ($data['name'] as $key => $value) {
+            $name       = $data['name'][$key];
+            $percentage = $data['percentage'][$key];
+
+            if (empty($name)) {
+                continue;
+            }
+            $totalPercentage += $percentage;
+        }
+
+        if ($totalPercentage > 100) {
+            flash()->error('Invalid percentage!');
+            return redirect()->back();
+        }
+
+        $subject->configurations()->delete();
+
+        foreach ($data['name'] as $key => $value) {
+            $name       = $data['name'][$key];
+            $percentage = $data['percentage'][$key];
+
+            if (empty($name)) {
+                continue;
+            }
+
+            $subjectConfiguration = [
+                'name' => $name,
+                'percentage' => $percentage,
+            ];
+
+            $subject->configurations()->create($subjectConfiguration);
+        }
+        return redirect()->back();
+    }
 
 }
